@@ -67,8 +67,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\Authorization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\Authorization.xaml.cs">
+      <DependentUpon>Authorization.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,6 +93,60 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\Inter_18pt-Black.ttf" />
+    <Resource Include="Fonts\Inter_18pt-BlackItalic.ttf" />
+    <Resource Include="Fonts\Inter_18pt-Bold.ttf" />
+    <Resource Include="Fonts\Inter_18pt-BoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_18pt-ExtraBold.ttf" />
+    <Resource Include="Fonts\Inter_18pt-ExtraBoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_18pt-ExtraLight.ttf" />
+    <Resource Include="Fonts\Inter_18pt-ExtraLightItalic.ttf" />
+    <Resource Include="Fonts\Inter_18pt-Italic.ttf" />
+    <Resource Include="Fonts\Inter_18pt-Light.ttf" />
+    <Resource Include="Fonts\Inter_18pt-LightItalic.ttf" />
+    <Resource Include="Fonts\Inter_18pt-Medium.ttf" />
+    <Resource Include="Fonts\Inter_18pt-MediumItalic.ttf" />
+    <Resource Include="Fonts\Inter_18pt-Regular.ttf" />
+    <Resource Include="Fonts\Inter_18pt-SemiBold.ttf" />
+    <Resource Include="Fonts\Inter_18pt-SemiBoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_18pt-Thin.ttf" />
+    <Resource Include="Fonts\Inter_18pt-ThinItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Black.ttf" />
+    <Resource Include="Fonts\Inter_24pt-BlackItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Bold.ttf" />
+    <Resource Include="Fonts\Inter_24pt-BoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-ExtraBold.ttf" />
+    <Resource Include="Fonts\Inter_24pt-ExtraBoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-ExtraLight.ttf" />
+    <Resource Include="Fonts\Inter_24pt-ExtraLightItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Italic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Light.ttf" />
+    <Resource Include="Fonts\Inter_24pt-LightItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Medium.ttf" />
+    <Resource Include="Fonts\Inter_24pt-MediumItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Regular.ttf" />
+    <Resource Include="Fonts\Inter_24pt-SemiBold.ttf" />
+    <Resource Include="Fonts\Inter_24pt-SemiBoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Thin.ttf" />
+    <Resource Include="Fonts\Inter_24pt-ThinItalic.ttf" />
+    <Resource Include="Fonts\Inter_28pt-Black.ttf" />
+    <Resource Include="Fonts\Inter_28pt-BlackItalic.ttf" />
+    <Resource Include="Fonts\Inter_28pt-Bold.ttf" />
+    <Resource Include="Fonts\Inter_28pt-BoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_28pt-ExtraBold.ttf" />
+    <Resource Include="Fonts\Inter_28pt-ExtraBoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_28pt-ExtraLight.ttf" />
+    <Resource Include="Fonts\Inter_28pt-ExtraLightItalic.ttf" />
+    <Resource Include="Fonts\Inter_28pt-Italic.ttf" />
+    <Resource Include="Fonts\Inter_28pt-Light.ttf" />
+    <Resource Include="Fonts\Inter_28pt-LightItalic.ttf" />
+    <Resource Include="Fonts\Inter_28pt-Medium.ttf" />
+    <Resource Include="Fonts\Inter_28pt-MediumItalic.ttf" />
+    <Resource Include="Fonts\Inter_28pt-Regular.ttf" />
+    <Resource Include="Fonts\Inter_28pt-SemiBold.ttf" />
+    <Resource Include="Fonts\Inter_28pt-SemiBoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_28pt-Thin.ttf" />
+    <Resource Include="Fonts\Inter_28pt-ThinItalic.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
