@@ -1,4 +1,8 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using Resonate_course_project.Contexts;
+using Resonate_course_project.DB;
+using Resonate_course_project.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +31,58 @@ namespace Resonate_course_project.Pages
 
         private void AuthClk(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                // 1. Открываем соединение (только ОДИН раз!)
+                MySqlConnection conn = new MySqlConnection("server=127.0.0.1;port=3307;database=resonate;uid=readonly_user;pwd=1111");
+                conn.Open();
 
+                // 2. Параметризованный запрос для поиска сотрудника
+                string sql = "SELECT `full_name`, `password`, `position` FROM `Employees` WHERE `login` = @login";
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@login", login.Text);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read()) // Нашли пользователя
+                        {
+                            // 3. Сравниваем хеш пароля
+                            string storedHash = reader.GetString("password");
+                            string enteredPassword = password.Password; // passwordBox - ваш элемент ввода пароля
+
+                            if (BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash))
+                            {
+                                // Успешная авторизация
+                                string position = reader.GetString("position");
+                                try
+                                {
+                                    MySqlConnection roleConn = new MySqlConnection($"server=127.0.0.1;port=3307;database=resonate;uid={login.Text};pwd={enteredPassword}");
+                                    roleConn.Open();
+                                }
+                                catch (Exception)
+                                {
+                                    MessageBox.Show($"Подключение не открыто");
+                                }
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("Неверный пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Пользователь не найден!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка авторизации:\n{ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
