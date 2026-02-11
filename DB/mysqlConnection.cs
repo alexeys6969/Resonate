@@ -12,7 +12,7 @@ namespace Resonate_course_project.DB
 {
     public static class mysqlConnection
     {
-        public static string _connection = "server=127.0.0.1;port=3307;uid=root;pwd=;database=Resonate";
+        public static string _connection = "server=127.0.0.1;port=3307;uid=readonly_user;pwd=1111;database=Resonate";
         public static MySqlConnection Open()
         {
             MySqlConnection connection = new MySqlConnection(_connection);

@@ -33,7 +33,6 @@ namespace Resonate_course_project.Pages
         {
             try
             {
-                // 1. Открываем соединение (только ОДИН раз!)
                 MySqlConnection conn = new MySqlConnection("server=127.0.0.1;port=3307;database=resonate;uid=readonly_user;pwd=1111");
                 conn.Open();
 
@@ -58,7 +57,7 @@ namespace Resonate_course_project.Pages
                                 try
                                 {
                                     MySqlConnection roleConn = new MySqlConnection($"server=127.0.0.1;port=3307;database=resonate;uid={login.Text};pwd={enteredPassword}");
-                                    roleConn.Open();
+                                    MainWindow.init.frame.Navigate(new Pages.Main(roleConn));
                                 }
                                 catch (Exception)
                                 {

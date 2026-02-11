@@ -13,7 +13,7 @@
             <Grid Background="#FF9E49" VerticalAlignment="Top">
                 <TextBlock Text="Авторизация" Style="{StaticResource HeaderTB}"/>
             </Grid>
-            <StackPanel Margin="0,51,0,0" VerticalAlignment="Bottom">
+            <StackPanel Margin="0,51,0,0">
                 <TextBlock Text="Введите логин" Style="{StaticResource HeaderTB}" Margin="65,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="Regular" FontSize="20"/>
                 <TextBox x:Name="login" Style="{StaticResource RoundedTextBox}" Height="25" Margin="65,5,65,0"/>
                 <TextBlock Text="Введите пароль" Style="{StaticResource HeaderTB}" Margin="65,25,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="Regular" FontSize="20"/>
