@@ -13,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Resonate
+namespace Resonate.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для Authorization.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Authorization : Page
     {
-        public static MainWindow init;
-        public MainWindow()
+        public Authorization()
         {
             InitializeComponent();
-            init = this;
-            frame.Navigate(new Pages.Authorization());
         }
     }
 }
