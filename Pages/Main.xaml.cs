@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Resonate.Elements;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,18 +17,18 @@ using System.Windows.Shapes;
 namespace Resonate.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для Authorization.xaml
+    /// Логика взаимодействия для Main.xaml
     /// </summary>
-    public partial class Authorization : Page
+    public partial class Main : Page
     {
-        public Authorization()
+        public Main()
         {
             InitializeComponent();
-        }
+            for (int i = 0; i < 6; i++)
+            {
+                MainWrapPanel.Children.Add(new Elements.TableItem());
+            }
 
-        private void Auth(object sender, RoutedEventArgs e)
-        {
-            MainWindow.init.frame.Navigate(new Pages.Main());
         }
     }
 }

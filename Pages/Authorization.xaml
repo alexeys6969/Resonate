@@ -10,9 +10,9 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="25*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3.75*"/>
+            <ColumnDefinition Width="92.5*"/>
+            <ColumnDefinition Width="3.75*"/>
         </Grid.ColumnDefinitions>
         <StackPanel VerticalAlignment="Top" Grid.ColumnSpan="3">
             <TextBlock Style="{StaticResource LogoTb}"/>
@@ -27,7 +27,7 @@
             <PasswordBox Style="{StaticResource MainPasswordbox}"/>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
-            <Button Style="{StaticResource AuthButton}" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,20"/>
+            <Button Click="Auth" Style="{StaticResource AuthButton}" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,20"/>
         </StackPanel>
     </Grid>
 </Page>

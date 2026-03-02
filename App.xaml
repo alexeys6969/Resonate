@@ -9,9 +9,6 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="0,20,0,0"/>
-            <Setter Property="Margin" Value="0,20,0,0"/>
-            <Setter Property="Margin" Value="0,20,0,0"/>
-            <Setter Property="Margin" Value="0,20,0,0"/>
             <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
             <Setter Property="FontSize" Value="32"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -91,14 +88,7 @@
 
         <Style x:Key="AuthButton" TargetType="Button">
             <Setter Property="Height" Value="35"/>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#FCC7C7" Offset="0.0"/>
-                        <GradientStop Color="#967777" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Background" Value="#FFFFFF"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
 
             <Setter Property="Margin" Value="0,40,0,0"/>
@@ -112,6 +102,35 @@
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                     Content="{TemplateBinding Content}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Content" Value="Авторизоваться"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="/Fonts/Inter-VariableFont_opsz,wght.ttf#Inter"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="ExtraLight"/>
+            <Setter Property="Foreground" Value="#000000"/>
+        </Style>
+
+        <Style x:Key="MainButton" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+
+            <Setter Property="Margin" Value="0,20,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                Background="{TemplateBinding Background}"
+                BorderThickness="1"
+                CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
