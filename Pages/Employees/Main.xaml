@@ -6,9 +6,30 @@
       xmlns:local="clr-namespace:Resonate.Pages.Employees"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Main">
+      Title="Main" Background="#292929">
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3.75*"/>
+            <ColumnDefinition Width="92.5*"/>
+            <ColumnDefinition Width="3.75*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1" VerticalAlignment="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Система: Иванов И. И." Style="{StaticResource MainTb}" TextDecorations="Underline" Margin="0,28,0,0"/>
+                <TextBlock Style="{StaticResource LogoTb}" VerticalAlignment="Center" Grid.Column="1"/>
+                <Button Style="{StaticResource MainButton}" Click="Exit" Content="Выйти" Grid.Column="2" Margin="78,20,0,0"/>
+            </Grid>
+        </StackPanel>
+        <ScrollViewer Grid.Column="1" Margin="0,65,0,0" 
+              VerticalScrollBarVisibility="Hidden">
+            <StackPanel x:Name="EmployeeParent">
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

@@ -15,10 +15,10 @@
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
             MinHeight="100"
-            Background="#dfe4e6" >
+            Background="#FFFFFF" >
 
         <Border CornerRadius="15" 
-                Background="#dfe4e6"
+                Background="#FFFFFF"
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch"
 >

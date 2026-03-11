@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Resonate.Pages.Employees
+namespace Resonate.Pages.Category
 {
     /// <summary>
     /// Логика взаимодействия для Main.xaml
@@ -23,15 +23,11 @@ namespace Resonate.Pages.Employees
         public Main()
         {
             InitializeComponent();
-            for (int i = 0; i < 10; i++)
-            {
-                EmployeeParent.Children.Add(new Elements.Item());
-            }
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.frame.Navigate(new Pages.Employees.Add());
+
         }
     }
 }

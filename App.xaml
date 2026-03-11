@@ -127,7 +127,7 @@
                         <Border Name="border" 
                 Background="{TemplateBinding Background}"
                 BorderThickness="1"
-                CornerRadius="15">
+                CornerRadius="20">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             Content="{TemplateBinding Content}"/>
@@ -142,6 +142,123 @@
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="ExtraLight"/>
             <Setter Property="Foreground" Value="#000000"/>
+        </Style>
+
+        <Style x:Key="RoundComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Border"
+                    Background="{TemplateBinding Background}"
+                    Padding="{TemplateBinding Padding}"
+                    CornerRadius="4">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#F0F0F0"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#E0E0E0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RoundedWhiteComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource RoundComboBoxItemStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="Border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="15"
+                        SnapsToDevicePixels="True">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentControl x:Name="ContentControl"
+                                        Grid.Column="0"
+                                        Margin="{TemplateBinding Padding}"
+                                        Content="{TemplateBinding SelectionBoxItem}"
+                                        ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                        ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                        IsTabStop="False"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"/>
+
+                                    <TextBlock x:Name="PlaceholderText"
+                                   Grid.Column="0"
+                                   Margin="{TemplateBinding Padding}"
+                                   Text="Выберите элемент..."
+                                   Foreground="#AAAAAA"
+                                   Visibility="Collapsed"
+                                   VerticalAlignment="Center"/>
+
+                                    <!-- Черный равносторонний треугольник -->
+                                    <Border x:Name="DropButton"
+                                Grid.Column="1"
+                                Width="36"
+                                Background="Transparent">
+                                        <Grid>
+                                            <Path x:Name="Arrow"
+                                          Fill="Black"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Data="M 0,0 L 8,0 L 4,6.93 Z"
+                                          Width="12"
+                                          Height="10"
+                                          Stretch="Fill"
+                                          RenderTransformOrigin="0.5,0.5">
+                                                <Path.RenderTransform>
+                                                    <RotateTransform Angle="0"/>
+                                                </Path.RenderTransform>
+                                            </Path>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Border>
+
+                            <Popup x:Name="PART_Popup"
+                       AllowsTransparency="True"
+                       Placement="Bottom"
+                       IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                       PopupAnimation="Slide">
+                                <Border x:Name="DropDownBorder"
+                            Background="White"
+                            BorderBrush="#CCCCCC"
+                            BorderThickness="1"
+                            CornerRadius="20"
+                            Margin="0,4,0,0"
+                            MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <ScrollViewer>
+                                        <ItemsPresenter x:Name="ItemsPresenter"
+                                            KeyboardNavigation.DirectionalNavigation="Contained"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>

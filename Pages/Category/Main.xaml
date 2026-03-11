@@ -1,9 +1,9 @@
-﻿<Page x:Class="Resonate.Pages.Main"
+﻿<Page x:Class="Resonate.Pages.Category.Main"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Resonate.Pages"
+      xmlns:local="clr-namespace:Resonate.Pages.Category"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Main" Background="#292929">
@@ -23,21 +23,13 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Система: Иванов И. И." Style="{StaticResource MainTb}" TextDecorations="Underline" Margin="0,28,0,0"/>
                 <TextBlock Style="{StaticResource LogoTb}" VerticalAlignment="Center" Grid.Column="1"/>
-                <Button Style="{StaticResource MainButton}" Content="Выйти" Grid.Column="2" Margin="78,20,0,0"/>
+                <Button Style="{StaticResource MainButton}" Click="Exit" Content="Выйти" Grid.Column="2" Margin="78,20,0,0"/>
             </Grid>
         </StackPanel>
-        <ScrollViewer Grid.Column="1" Margin="0,125,0,120" 
+        <ScrollViewer Grid.Column="1" Margin="0,65,0,0" 
               VerticalScrollBarVisibility="Hidden">
-            <StackPanel>
-                <UniformGrid x:Name="MainWrapPanel" 
-                    Columns="2" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    Margin="0,0,-10,0">
-                </UniformGrid>
-
+            <StackPanel x:Name="CategoryParent">
             </StackPanel>
         </ScrollViewer>
-        <Button Click="ReportForm" Style="{StaticResource MainButton}" Content="Сформировать отчет" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,40,0,40"/>
     </Grid>
 </Page>

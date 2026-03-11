@@ -30,5 +30,10 @@ namespace Resonate.Pages
             }
 
         }
+
+        private void ReportForm(object sender, RoutedEventArgs e)
+        {
+            MainWindow.init.frame.Navigate(new Pages.Employees.Main());
+        }
     }
 }
