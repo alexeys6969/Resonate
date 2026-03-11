@@ -28,18 +28,15 @@
         </StackPanel>
         <ScrollViewer Grid.Column="1" Margin="0,125,0,120" 
               VerticalScrollBarVisibility="Hidden">
+            <StackPanel>
+                <UniformGrid x:Name="MainWrapPanel" 
+                    Columns="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Margin="0,0,-10,0">
+                </UniformGrid>
 
-            <!-- UniformGrid создаёт сетку: 3 колонки, элементы равного размера -->
-            <UniformGrid x:Name="MainWrapPanel" 
-                 Columns="2" 
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Top"
-                 Margin="0,0,-10,0">
-                <!-- Общий отступ сетки от краёв -->
-
-                <!-- Элементы TableItem будут добавляться сюда -->
-
-            </UniformGrid>
+            </StackPanel>
         </ScrollViewer>
         <Button Style="{StaticResource MainButton}" Content="Сформировать отчет" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,40,0,40"/>
     </Grid>

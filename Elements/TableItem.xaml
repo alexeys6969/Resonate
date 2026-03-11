@@ -14,10 +14,11 @@
             VerticalAlignment="Stretch"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
-            MinHeight="100">
+            MinHeight="100"
+            Background="#dfe4e6" >
 
         <Border CornerRadius="15" 
-                Background="#FFFFFF"
+                Background="#dfe4e6"
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch"
 >
@@ -32,7 +33,7 @@
                            Foreground="#000000" 
                            Margin="0,0,0,5"  
                            FontSize="20"
-                           FontWeight="ExtraLight"
+                           FontWeight="Light"
                            HorizontalAlignment="Center"
                            TextWrapping="Wrap"
                            TextAlignment="Center"/>
