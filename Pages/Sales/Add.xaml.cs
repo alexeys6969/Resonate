@@ -13,19 +13,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Resonate.Pages.Products
+namespace Resonate.Pages.Sales
 {
     /// <summary>
-    /// Логика взаимодействия для Main.xaml
+    /// Логика взаимодействия для Add.xaml
     /// </summary>
-    public partial class Main : Page
+    public partial class Add : Page
     {
-        public Main()
+        public Add()
         {
             InitializeComponent();
         }
 
-        private void Exit(object sender, RoutedEventArgs e)
+        private void AddProduct(object sender, RoutedEventArgs e)
+        {
+            NewProductParent.Children.Add(new Elements.NewProductItem(this));
+        }
+
+        private void EditInfo(object sender, RoutedEventArgs e)
         {
 
         }

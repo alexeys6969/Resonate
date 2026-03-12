@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Resonate.Pages.Products
+namespace Resonate.Pages.Sales.Elements
 {
     /// <summary>
-    /// Логика взаимодействия для Main.xaml
+    /// Логика взаимодействия для Item.xaml
     /// </summary>
-    public partial class Main : Page
+    public partial class Item : UserControl
     {
-        public Main()
+        public Item()
         {
             InitializeComponent();
-        }
-
-        private void Exit(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

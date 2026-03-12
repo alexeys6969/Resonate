@@ -24,5 +24,10 @@ namespace Resonate.Pages.Products
         {
             InitializeComponent();
         }
+
+        private void EditInfo(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
