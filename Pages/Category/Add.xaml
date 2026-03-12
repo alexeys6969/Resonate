@@ -32,7 +32,9 @@
                 <TextBlock Text="Введите название" Style="{StaticResource MainTb}" Margin="0" HorizontalAlignment="Left"/>
                 <TextBox x:Name="Name" Style="{StaticResource MainTextbox}"/>
                 <TextBlock Text="Введите описание" Style="{StaticResource MainTb}" Margin="0,15,0,0" HorizontalAlignment="Left"/>
-                <TextBox x:Name="Description" Style="{StaticResource MainTextbox}" Margin="0,10,0,30" />
+                <Grid>
+                    <TextBox x:Name="Description" Style="{StaticResource MainTextbox}" Height="auto" VerticalAlignment="Stretch" TextWrapping="Wrap" Margin="0,10,0,0" />
+                </Grid>
             </StackPanel>
         </ScrollViewer>
         <Button Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,30" x:Name="AddEdit" Click="EditInfo" Style="{StaticResource MainButton}" Content="Добавить"/>
