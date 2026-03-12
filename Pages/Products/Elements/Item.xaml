@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Resonate.Pages.Products.Elements.Item"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Resonate.Pages.Products.Elements"
+             mc:Ignorable="d">
+    <Border Background="#FFFFFF" CornerRadius="20">
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,35,0">
+                <TextBlock Text="Название: Гитара акустическая Yamaha FG800" Style="{StaticResource MainTb}" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Medium" Foreground="#000000" Margin="10,10,0,0"/>
+                <TextBlock Text="Артикул: GTR-AC-001" Style="{StaticResource MainTb}" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#000000" Margin="10,0,0,0"/>
+                <TextBlock Text="Категория: Струнные инструменты" Style="{StaticResource MainTb}" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#000000" Margin="10,0,0,0"/>
+                <TextBlock Text="Цена: 18500.00" Style="{StaticResource MainTb}" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#000000" Margin="10,0,0,10"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="0,0,35,0" VerticalAlignment="Top">
+                <TextBlock Text="Описание: Концертная акустическая гитара, верхняя дека из ели" Style="{StaticResource MainTb}" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Stretch" Height="auto" Width="auto" HorizontalAlignment="Left" Foreground="#000000" Margin="0,10,0,0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Margin="65,0,15,0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Height="45" Width="45" BorderThickness="0" VerticalAlignment="Center">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Images/redact.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Height="45" Width="45" Margin="10,0,0,0" BorderThickness="0" VerticalAlignment="Center">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Images/delete.png"/>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>
