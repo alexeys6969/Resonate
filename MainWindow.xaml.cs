@@ -25,7 +25,7 @@ namespace Resonate
         {
             InitializeComponent();
             init = this;
-            frame.Navigate(new Pages.Sales.Add());
+            frame.Navigate(new Pages.Authorization());
         }
     }
 }

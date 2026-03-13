@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Resonate.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,36 @@ namespace Resonate.Pages
     /// </summary>
     public partial class Authorization : Page
     {
+        private readonly ApiService _apiService;
         public Authorization()
         {
             InitializeComponent();
+            _apiService = new ApiService();
         }
 
-        private void Auth(object sender, RoutedEventArgs e)
+        private async void Auth(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.frame.Navigate(new Pages.Main());
+            try
+            {
+                var response = await _apiService.LoginAsync(EmployeeLogin.Text, EmployeePassword.Password);
+
+                if (response != null)
+                {
+                    // Сохраняем токен
+                    TokenStorage.Instance.SaveToken(response.Token, response.Expiration, response.Employee);
+
+                    // Переходим на главную страницу
+                    NavigationService.Navigate(new Main());
+                }
+                else
+                {
+                    MessageBox.Show("Седня не \n На неделе го");
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Седня не \n На неделе го");
+            }
         }
     }
 }

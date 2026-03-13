@@ -24,5 +24,10 @@ namespace Resonate.Pages.Suppliers
         {
             InitializeComponent();
         }
+
+        private void Exit(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

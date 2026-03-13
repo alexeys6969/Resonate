@@ -24,5 +24,15 @@ namespace Resonate.Pages.Supply
         {
             InitializeComponent();
         }
+
+        private void AddProduct(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditInfo(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

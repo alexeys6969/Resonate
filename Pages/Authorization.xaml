@@ -20,11 +20,9 @@
         </StackPanel>
         <StackPanel Margin="0,92,0,0" Grid.Column="1">
             <TextBlock Text="Введите логин" Style="{StaticResource MainTb}" HorizontalAlignment="Left"/>
-            <TextBox Style="{StaticResource MainTextbox}"/>
-            <TextBlock Text="Введите Email" Style="{StaticResource MainTb}" HorizontalAlignment="Left"/>
-            <TextBox Style="{StaticResource MainTextbox}"/>
+            <TextBox x:Name="EmployeeLogin" Style="{StaticResource MainTextbox}"/>
             <TextBlock Text="Введите пароль" Style="{StaticResource MainTb}" HorizontalAlignment="Left"/>
-            <PasswordBox Style="{StaticResource MainPasswordbox}"/>
+            <PasswordBox x:Name="EmployeePassword" Style="{StaticResource MainPasswordbox}"/>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
             <Button Click="Auth" Style="{StaticResource AuthButton}" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,20"/>

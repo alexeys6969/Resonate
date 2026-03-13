@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Resonate.Pages.Sales.Elements
+namespace Resonate.Pages.Supply.Elements
 {
     /// <summary>
     /// Логика взаимодействия для NewProductItem.xaml
