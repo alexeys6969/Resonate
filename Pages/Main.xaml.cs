@@ -21,13 +21,10 @@ namespace Resonate.Pages
     /// </summary>
     public partial class Main : Page
     {
-        public Main()
+        public Main(string token)
         {
             InitializeComponent();
-            for (int i = 0; i < 6; i++)
-            {
-                MainWrapPanel.Children.Add(new Elements.TableItem());
-            }
+            
 
         }
 

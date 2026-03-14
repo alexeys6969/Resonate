@@ -58,11 +58,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Context\EmployeeContext.cs" />
+    <Compile Include="Model\Auth.cs" />
     <Compile Include="Model\Employees.cs" />
-    <Compile Include="Model\LoginRequest.cs" />
-    <Compile Include="Model\LoginResponse.cs" />
-    <Compile Include="Services\ApiService.cs" />
-    <Compile Include="Services\TokenStorage.cs" />
     <Compile Include="Windows\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
@@ -296,7 +294,12 @@
     <Resource Include="Images\suppliers.png" />
     <Resource Include="Images\supply.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Resonate_API\Resonate_API\Resonate_API.csproj">
+      <Project>{10a09251-346c-4839-bd29-9469ebc074c4}</Project>
+      <Name>Resonate_API</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\siski.jpg" />
   </ItemGroup>

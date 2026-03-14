@@ -21,6 +21,7 @@ namespace Resonate
     public partial class MainWindow : Window
     {
         public static MainWindow init;
+        public static string Token;
         public MainWindow()
         {
             InitializeComponent();

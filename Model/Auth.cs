@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Resonate.Model
 {
-    public class LoginRequest
+    public class Auth
     {
-        public string Login { get; set; }
-        public string Password { get; set; }
+        public string Token {  get; set; }
     }
 }

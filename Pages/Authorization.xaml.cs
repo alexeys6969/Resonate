@@ -1,4 +1,4 @@
-﻿using Resonate.Services;
+﻿using Resonate.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,36 +21,37 @@ namespace Resonate.Pages
     /// </summary>
     public partial class Authorization : Page
     {
-        private readonly ApiService _apiService;
         public Authorization()
         {
             InitializeComponent();
-            _apiService = new ApiService();
         }
 
-        private async void Auth(object sender, RoutedEventArgs e)
+        public async Task Auth(string login, string password)
         {
-            try
+            var Token = await EmployeeContext.Login(login, password);
+            if (Token == null)
             {
-                var response = await _apiService.LoginAsync(EmployeeLogin.Text, EmployeePassword.Password);
-
-                if (response != null)
-                {
-                    // Сохраняем токен
-                    TokenStorage.Instance.SaveToken(response.Token, response.Expiration, response.Employee);
-
-                    // Переходим на главную страницу
-                    NavigationService.Navigate(new Main());
-                }
-                else
-                {
-                    MessageBox.Show("Седня не \n На неделе го");
-                }
-            }
-            catch (Exception)
+                MessageBox.Show("Логин и пароль указаны неверно");
+            } else
             {
-                MessageBox.Show("Седня не \n На неделе го");
+                MainWindow.Token = Token;
+                MainWindow.init.frame.Navigate(new Pages.Main());
             }
+        }
+
+        private void AuthBtn(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(EmployeeLogin.Text))
+            {
+                MessageBox.Show("Необходимо указать логин пользователя");
+                return;
+            }
+            if (string.IsNullOrEmpty(EmployeePassword.Password))
+            {
+                MessageBox.Show("Необходимо указать пароль");
+                return;
+            }
+            Auth(EmployeeLogin.Text, EmployeePassword.Password);
         }
     }
 }
