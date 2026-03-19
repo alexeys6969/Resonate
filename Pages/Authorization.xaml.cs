@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net.Http;
+using Resonate.Windows;
 
 namespace Resonate.Pages
 {
@@ -31,11 +33,13 @@ namespace Resonate.Pages
             var Token = await EmployeeContext.Login(login, password);
             if (Token == null)
             {
-                MessageBox.Show("Логин и пароль указаны неверно");
+                InfoWindow info = new InfoWindow("Пользователь не найден");
+                info.Show();
+
             } else
             {
                 MainWindow.Token = Token;
-                MainWindow.init.frame.Navigate(new Pages.Main());
+                MainWindow.init.frame.Navigate(new Pages.Main(Token));
             }
         }
 
@@ -43,12 +47,14 @@ namespace Resonate.Pages
         {
             if (string.IsNullOrEmpty(EmployeeLogin.Text))
             {
-                MessageBox.Show("Необходимо указать логин пользователя");
+                InfoWindow info = new InfoWindow("Необходимо указать логин пользователя");
+                info.Show();
                 return;
             }
             if (string.IsNullOrEmpty(EmployeePassword.Password))
             {
-                MessageBox.Show("Необходимо указать пароль");
+                InfoWindow info = new InfoWindow("Необходимо указать пароль");
+                info.Show();
                 return;
             }
             Auth(EmployeeLogin.Text, EmployeePassword.Password);

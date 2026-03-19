@@ -19,9 +19,15 @@ namespace Resonate.Windows
     /// </summary>
     public partial class InfoWindow : Window
     {
-        public InfoWindow()
+        public InfoWindow(string message)
         {
             InitializeComponent();
+            windowInfo.Text = message;
+        }
+
+        private void OkClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

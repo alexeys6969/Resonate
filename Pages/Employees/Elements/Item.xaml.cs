@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Resonate.Context;
+using Resonate.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,29 @@ namespace Resonate.Pages.Employees.Elements
     /// </summary>
     public partial class Item : UserControl
     {
-        public Item()
+        Model.Employees employee;
+        public Item(Model.Employees _employee)
         {
             InitializeComponent();
+            employee = _employee;
+            LoadItem();
+        }
+
+        private void Update(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Delete(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void LoadItem()
+        {
+            var currentEmployee = await EmployeeContext.GetEmployeeById(employee.Id);
+            FIO.Text = employee.Full_Name;
+            Position.Text = employee.Position;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Resonate.Context;
+using Resonate.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,9 +25,14 @@ namespace Resonate.Pages.Employees
         public Main()
         {
             InitializeComponent();
-            for (int i = 0; i < 10; i++)
+            LoadEmployees();
+        }
+
+        public async Task LoadEmployees() {
+            List<Model.Employees> employees = await EmployeeContext.GetEmployees();
+            foreach (var item in employees as List<Model.Employees>)
             {
-                EmployeeParent.Children.Add(new Elements.Item());
+                EmployeeParent.Children.Add(new Elements.Item(item));
             }
         }
 
