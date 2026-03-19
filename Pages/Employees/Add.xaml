@@ -20,9 +20,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Система: Иванов И. И." Style="{StaticResource MainTb}" TextDecorations="Underline" Margin="0,28,0,0"/>
+                <TextBlock Text="Система: Иванов И. И." x:Name="SystemUser" Style="{StaticResource MainTb}" TextDecorations="Underline" Margin="0,28,0,0"/>
                 <TextBlock Style="{StaticResource LogoTb}" VerticalAlignment="Center" Grid.Column="1"/>
-                <Button Style="{StaticResource MainButton}" Content="Выйти" Grid.Column="2" Margin="78,20,0,0"/>
+                <Button Style="{StaticResource MainButton}" Click="Exit" Content="Выйти" Grid.Column="2" Margin="78,20,0,0"/>
             </Grid>
         </StackPanel>
         <ScrollViewer Grid.Column="1" Margin="0,90,0,30" 
@@ -30,12 +30,8 @@
             <StackPanel>
                 <TextBlock Text="Введите ФИО" Style="{StaticResource MainTb}" Margin="0" HorizontalAlignment="Left"/>
                 <TextBox x:Name="FIO" Style="{StaticResource MainTextbox}"/>
-                <TextBlock Text="Введите Email" Style="{StaticResource MainTb}" Margin="0,15,0,0" HorizontalAlignment="Left"/>
-                <TextBox x:Name="Email" Style="{StaticResource MainTextbox}"/>
-                <TextBlock Text="Введите номер телефона" Style="{StaticResource MainTb}" Margin="0,15,0,0" HorizontalAlignment="Left"/>
-                <TextBox x:Name="Phone" Style="{StaticResource MainTextbox}"/>
                 <TextBlock Text="Выберите должность" Style="{StaticResource MainTb}" Margin="0,15,0,0" HorizontalAlignment="Left"/>
-                <ComboBox x:Name="Position" Style="{StaticResource RoundedWhiteComboBox}" Margin="0,10,0,0"/>
+                <ComboBox x:Name="Position" Style="{StaticResource RoundedWhiteComboBox}" Height="30" Margin="0,10,0,0"/>
                 <TextBlock Text="Введите логин" Style="{StaticResource MainTb}" Margin="0,15,0,0" HorizontalAlignment="Left"/>
                 <TextBox x:Name="Login" Style="{StaticResource MainTextbox}"/>
                 <TextBlock Text="Введите пароль" Style="{StaticResource MainTb}" Margin="0,15,0,0" HorizontalAlignment="Left"/>

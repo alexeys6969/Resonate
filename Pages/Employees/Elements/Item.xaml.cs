@@ -32,7 +32,7 @@ namespace Resonate.Pages.Employees.Elements
 
         private void Update(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.init.frame.Navigate(new Pages.Employees.Add(MainWindow.Token, employee));
         }
 
         private void Delete(object sender, RoutedEventArgs e)

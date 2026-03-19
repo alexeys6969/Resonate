@@ -159,14 +159,16 @@
         <Style x:Key="RoundComboBoxItemStyle" TargetType="ComboBoxItem">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="ExtraLight"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBoxItem">
                         <Border x:Name="Border"
                     Background="{TemplateBinding Background}"
                     Padding="{TemplateBinding Padding}"
-                    CornerRadius="4">
+                    CornerRadius="0">
                             <ContentPresenter/>
                         </Border>
                     </ControlTemplate>
@@ -178,7 +180,9 @@
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="#000000"/>
             <Setter Property="Height" Value="30"/>
-            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="ExtraLight"/>
             <Setter Property="ItemContainerStyle" Value="{StaticResource RoundComboBoxItemStyle}"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -196,39 +200,41 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
+                                    <!-- ToggleButton для открытия/закрытия (занимает всю область) -->
+                                    <ToggleButton x:Name="ToggleButton"
+                                Grid.ColumnSpan="2"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ClickMode="Press"/>
+
                                     <ContentControl x:Name="ContentControl"
-                                        Grid.Column="0"
-                                        Margin="{TemplateBinding Padding}"
-                                        Content="{TemplateBinding SelectionBoxItem}"
-                                        ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                        ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                        IsTabStop="False"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"/>
+                                Grid.Column="0"
+                                Margin="{TemplateBinding Padding}"
+                                Content="{TemplateBinding SelectionBoxItem}"
+                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                IsTabStop="False"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                IsHitTestVisible="False"/>
 
-                                    <TextBlock x:Name="PlaceholderText"
-                                   Grid.Column="0"
-                                   Margin="{TemplateBinding Padding}"
-                                   Text="Выберите элемент..."
-                                   Foreground="#AAAAAA"
-                                   Visibility="Collapsed"
-                                   VerticalAlignment="Center"/>
-
-                                    <!-- Черный равносторонний треугольник -->
+                                    <!-- Стрелка (только для отображения) -->
                                     <Border x:Name="DropButton"
                                 Grid.Column="1"
                                 Width="36"
-                                Background="Transparent">
+                                Background="Transparent"
+                                IsHitTestVisible="False">
                                         <Grid>
                                             <Path x:Name="Arrow"
-                                          Fill="Black"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Data="M 0,0 L 8,0 L 4,6.93 Z"
-                                          Width="12"
-                                          Height="10"
-                                          Stretch="Fill"
-                                          RenderTransformOrigin="0.5,0.5">
+                                        Fill="Black"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Data="M0,0 L8,0 L4,6.93 Z"
+                                        Width="12"
+                                        Height="10"
+                                        Stretch="Fill"
+                                        RenderTransformOrigin="0.5,0.5">
                                                 <Path.RenderTransform>
                                                     <RotateTransform Angle="0"/>
                                                 </Path.RenderTransform>
@@ -239,10 +245,10 @@
                             </Border>
 
                             <Popup x:Name="PART_Popup"
-                       AllowsTransparency="True"
-                       Placement="Bottom"
-                       IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                       PopupAnimation="Slide">
+                        AllowsTransparency="True"
+                        Placement="Bottom"
+                        IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                        PopupAnimation="Slide">
                                 <Border x:Name="DropDownBorder"
                             Background="White"
                             BorderBrush="#CCCCCC"
@@ -252,12 +258,23 @@
                             MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                     <ScrollViewer>
                                         <ItemsPresenter x:Name="ItemsPresenter"
-                                            KeyboardNavigation.DirectionalNavigation="Contained"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                     </ScrollViewer>
                                 </Border>
                             </Popup>
                         </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Поворот стрелки при открытии -->
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="Arrow" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="180"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

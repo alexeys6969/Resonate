@@ -71,7 +71,7 @@ namespace Resonate.Pages
 
         private void EmployeeClick(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.frame.Navigate(new Pages.Employees.Main());
+            MainWindow.init.frame.Navigate(new Pages.Employees.Main(_token));
         }
 
         private void ProductClick(object sender, RoutedEventArgs e)

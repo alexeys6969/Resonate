@@ -57,13 +57,10 @@ namespace Resonate.Context
             }
             return new List<Employees>();
         }
-        public static async Task<Employees> GetEmployeeById(int id, string token = null)
+        public static async Task<Employees> GetEmployeeById(int id)
         {
             using (HttpClient Client = new HttpClient())
             {
-                if (!string.IsNullOrEmpty(token))
-                    Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
-
                 using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Get, url + $"GETEmployeeById?id={id}"))
                 {
                     var Response = await Client.SendAsync(Request);
@@ -107,6 +104,91 @@ namespace Resonate.Context
                         info.Show();
                         return null;
                     }
+                }
+            }
+        }
+        public static async Task<Employees> CreateEmployee(Employees employee)
+        {
+            using (HttpClient Client = new HttpClient())
+            {
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, url + "POSTEmployee"))
+                {
+                    Dictionary<string, string> FormData = new Dictionary<string, string>
+                    {
+                        ["Full_Name"] = employee.Full_Name,
+                        ["Login"] = employee.Login,
+                        ["Password"] = employee.Password,
+                        ["Position"] = employee.Position
+                    };
+
+                    FormUrlEncodedContent Content = new FormUrlEncodedContent(FormData);
+                    Request.Content = Content;
+
+                    var Response = await Client.SendAsync(Request);
+
+                    if (Response.StatusCode == HttpStatusCode.Created ||
+                        Response.StatusCode == HttpStatusCode.OK)
+                    {
+                        string sResponse = await Response.Content.ReadAsStringAsync();
+                        dynamic responseObj = JsonConvert.DeserializeObject(sResponse);
+                        return new Employees
+                        {
+                            Id = responseObj.Id,
+                            Full_Name = responseObj.Full_Name,
+                            Login = responseObj.Login,
+                            Password = responseObj.Password,
+                            Position = responseObj.Position
+                        };
+                    }
+                    else
+                    {
+                        string error = await Response.Content.ReadAsStringAsync();
+                        throw new Exception($"Ошибка при создании сотрудника: {error}");
+                    }
+                }
+            }
+        }
+        public static async Task<bool> UpdateEmployee(int id, Employees employee)
+        {
+            using (HttpClient Client = new HttpClient())
+            {
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Put, url + "PUTEmployee"))
+                {
+                    Dictionary<string, string> FormData = new Dictionary<string, string>
+                    {
+                        ["id"] = id.ToString(),
+                        ["Full_Name"] = employee.Full_Name,
+                        ["Login"] = employee.Login,
+                        ["Password"] = employee.Password,
+                        ["Position"] = employee.Position
+                    };
+
+                    FormUrlEncodedContent Content = new FormUrlEncodedContent(FormData);
+                    Request.Content = Content;
+
+                    var Response = await Client.SendAsync(Request);
+
+                    return Response.StatusCode == HttpStatusCode.OK;
+                }
+            }
+        }
+        public static async Task<bool> DeleteEmployee(int id)
+        {
+            using (HttpClient Client = new HttpClient())
+            {
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, url + "DELETEEmployees"))
+                {
+                    Dictionary<string, string> FormData = new Dictionary<string, string>
+                    {
+                        ["id"] = id.ToString()
+                    };
+
+                    FormUrlEncodedContent Content = new FormUrlEncodedContent(FormData);
+                    Request.Content = Content;
+
+                    var Response = await Client.SendAsync(Request);
+
+                    return Response.StatusCode == HttpStatusCode.OK;
                 }
             }
         }
