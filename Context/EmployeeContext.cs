@@ -133,7 +133,6 @@ namespace Resonate.Context
                         dynamic responseObj = JsonConvert.DeserializeObject(sResponse);
                         return new Employees
                         {
-                            Id = responseObj.Id,
                             Full_Name = responseObj.Full_Name,
                             Login = responseObj.Login,
                             Password = responseObj.Password,
@@ -150,25 +149,27 @@ namespace Resonate.Context
         }
         public static async Task<bool> UpdateEmployee(int id, Employees employee)
         {
-            using (HttpClient Client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Put, url + "PUTEmployee"))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url + "PUTEmployee"))
                 {
-                    Dictionary<string, string> FormData = new Dictionary<string, string>
-                    {
-                        ["id"] = id.ToString(),
-                        ["Full_Name"] = employee.Full_Name,
-                        ["Login"] = employee.Login,
-                        ["Password"] = employee.Password,
-                        ["Position"] = employee.Position
-                    };
+                    var content = new MultipartFormDataContent();
 
-                    FormUrlEncodedContent Content = new FormUrlEncodedContent(FormData);
-                    Request.Content = Content;
+                    content.Add(new StringContent(id.ToString()), "id");
+                    content.Add(new StringContent(employee.Full_Name ?? ""), "Full_Name");
+                    content.Add(new StringContent(employee.Login ?? ""), "Login");
+                    content.Add(new StringContent(employee.Password ?? ""), "Password");
+                    content.Add(new StringContent(employee.Position ?? ""), "Position");
 
-                    var Response = await Client.SendAsync(Request);
+                    request.Content = content;
 
-                    return Response.StatusCode == HttpStatusCode.OK;
+                    var response = await client.SendAsync(request);
+
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Status: {response.StatusCode}");
+                    Console.WriteLine($"Response: {responseBody}");
+
+                    return response.IsSuccessStatusCode;
                 }
             }
         }

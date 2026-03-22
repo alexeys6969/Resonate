@@ -1,5 +1,7 @@
-﻿using Resonate.Context;
+﻿using Newtonsoft.Json.Linq;
+using Resonate.Context;
 using Resonate.Model;
+using Resonate.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +37,34 @@ namespace Resonate.Pages.Employees.Elements
             MainWindow.init.frame.Navigate(new Pages.Employees.Add(MainWindow.Token, employee));
         }
 
-        private void Delete(object sender, RoutedEventArgs e)
+        private async void Delete(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                DialogWindow dialog = new DialogWindow($"Вы точно хотите удалить сотрудника {employee.Full_Name}?");
+                dialog.Show();
+                if (dialog.DialogResult == true)
+                {
+                    bool result = await EmployeeContext.DeleteEmployee(employee.Id);
+                    if (result)
+                    {
+                        InfoWindow info = new InfoWindow($"Сотрудник {employee.Full_Name} успешно удален");
+                        info.Show();
+                        MainWindow.init.frame.Navigate(new Pages.Employees.Main(MainWindow.Token));
+                    }
+                    else
+                    {
+                        InfoWindow info = new InfoWindow($"При удалении сотрудника {employee.Full_Name} возникла ошибка");
+                        info.Show();
+                    }
+                }
+            } catch(Exception ex)
+            {
+                InfoWindow info = new InfoWindow($"Возникла ошибка {ex.Message}");
+                info.Show();
+            }
+            
+            
         }
 
         private async void LoadItem()

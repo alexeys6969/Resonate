@@ -19,9 +19,23 @@ namespace Resonate.Windows
     /// </summary>
     public partial class DialogWindow : Window
     {
-        public DialogWindow()
+        public bool? DialogResult { get; private set; }
+        public DialogWindow(string question)
         {
             InitializeComponent();
+            questionText.Text = question;
+        }
+
+        private void Yes(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+            Close();
+        }
+
+        private void No(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            Close();
         }
     }
 }

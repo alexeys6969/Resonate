@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Resonate.Windows"
         mc:Ignorable="d"
-        Title="InfoWindow" Height="260" Width="520" Background="#292929" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="InfoWindow" Height="260" Width="520" Background="#292929" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
     <StackPanel HorizontalAlignment="Center" Width="345">
         <TextBlock Style="{StaticResource LogoTb}"/>
-        <TextBlock Style="{StaticResource MainTb}" x:Name="windowInfo" TextWrapping="Wrap" Text="Выберите таблицу, для которой надо сформировать отчет" Margin="0" />
+        <TextBlock Style="{StaticResource MainTb}" x:Name="windowInfo" TextWrapping="Wrap" Height="auto" Text="Выберите таблицу, для которой надо сформировать отчет" Margin="0" />
         <Grid VerticalAlignment="Bottom" Margin="0,20,0,20">
             <Button Style="{StaticResource MainButton}" Content="ОК" Click="OkClick" HorizontalAlignment="Stretch" Height="35"/>
         </Grid>

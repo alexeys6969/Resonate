@@ -41,12 +41,21 @@ namespace Resonate.Pages.Employees
                 try
                 {
                     AddEdit.IsEnabled = false;
-                    bool result = await EmployeeContext.UpdateEmployee(employee.Id, employee);
+                    var updatedEmployee = new Model.Employees
+                    {
+                        Id = employee.Id,
+                        Full_Name = FIO.Text,
+                        Login = Login.Text,
+                        Password = Pass.Password,
+                        Position = Position.SelectedItem?.ToString() ?? employee.Position
+                    };
+                    bool result = await EmployeeContext.UpdateEmployee(updatedEmployee.Id, updatedEmployee);
 
                     if (result)
                     {
                         InfoWindow info = new InfoWindow("Информация о сотруднике успешно обновлена");
                         info.Show();
+                        MainWindow.init.frame.Navigate(new Pages.Employees.Main(_token));
                     }
                     else
                     {
@@ -56,8 +65,8 @@ namespace Resonate.Pages.Employees
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка при обновлении: {ex.Message}",
-                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    InfoWindow info = new InfoWindow($"Ошибка при обновлении: { ex.Message }");
+                    info.Show();
                 }
                 finally
                 {
@@ -68,23 +77,31 @@ namespace Resonate.Pages.Employees
                 try
                 {
                     AddEdit.IsEnabled = false;
-                    await EmployeeContext.CreateEmployee(employee);
-
-                    if (result)
+                    var newEmployee = new Model.Employees
                     {
-                        InfoWindow info = new InfoWindow("Информация о сотруднике успешно обновлена");
+                        Full_Name = FIO.Text,
+                        Login = Login.Text,
+                        Password = Pass.Password,
+                        Position = Position.SelectedItem.ToString()
+                    };
+                    Model.Employees createdEmployee = await EmployeeContext.CreateEmployee(newEmployee);
+
+                    if (createdEmployee != null)
+                    {
+                        InfoWindow info = new InfoWindow($"Сотрудник {createdEmployee.Full_Name} успешно создан!");
                         info.Show();
                     }
                     else
                     {
-                        InfoWindow info = new InfoWindow("Не удалось обновить информацию о сотруднике");
+                        InfoWindow info = new InfoWindow("Не удалось создать сотрудника. Сервер вернул пустой ответ.");
                         info.Show();
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка при обновлении: {ex.Message}",
-                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    string errorMessage = $"Ошибка при создании: {ex.Message}";
+                    InfoWindow info = new InfoWindow(errorMessage);
+                    info.Show();
                 }
                 finally
                 {

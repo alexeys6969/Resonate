@@ -8,10 +8,10 @@
         Title="DialogWindow" Height="260" Width="520" Background="#292929">
     <StackPanel HorizontalAlignment="Center" Width="345">
         <TextBlock Style="{StaticResource LogoTb}"/>
-        <TextBlock Style="{StaticResource MainTb}" TextWrapping="Wrap" Text="Выберите таблицу, для которой надо сформировать отчет" Margin="0" />
+        <TextBlock Style="{StaticResource MainTb}" TextWrapping="Wrap" x:Name="questionText" Text="Выберите таблицу, для которой надо сформировать отчет" Margin="0" />
         <Grid VerticalAlignment="Bottom" Margin="0,20,0,20">
-            <Button Style="{StaticResource MainButton}" Content="Да" HorizontalAlignment="Left" Height="35" Width="150"/>
-            <Button Style="{StaticResource MainButton}" Content="Нет" HorizontalAlignment="Right" Height="35" Width="150"/>
+            <Button Style="{StaticResource MainButton}" Content="Да" Click="Yes" HorizontalAlignment="Left" Height="35" Width="150"/>
+            <Button Style="{StaticResource MainButton}" Content="Нет" Click="No" HorizontalAlignment="Right" Height="35" Width="150"/>
         </Grid>
     </StackPanel>
 </Window>
