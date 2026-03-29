@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,11 +25,9 @@ namespace Resonate.Pages.Employees
     public partial class Add : Page
     {
         Model.Employees employee;
-        private static string _token;
-        public Add(string token, Model.Employees _employee = null)
+        public Add(Model.Employees _employee = null)
         {
             InitializeComponent();
-            _token = token;
             employee = _employee;
             LoadEmployeesDataInField(employee);
             LoadCurrentEmployees();
@@ -36,7 +35,31 @@ namespace Resonate.Pages.Employees
 
         private async void EditInfo(object sender, RoutedEventArgs e)
         {
-            if(employee != null)
+            if(String.IsNullOrWhiteSpace(FIO.Text) || !Regex.IsMatch(FIO.Text, @"^[А-ЯЁ][а-яё]*(?:-[А-ЯЁ][а-яё]*)?\s[А-ЯЁ][а-яё]*(?:-[А-ЯЁ][а-яё]*)?\s[А-ЯЁ][а-яё]*(?:-[А-ЯЁ][а-яё]*)?$"))
+            {
+                InfoWindow incorrectFIO = new InfoWindow("Некорректное ФИО");
+                incorrectFIO.Show();
+                return;
+            }
+            if (Position.SelectedIndex == -1)
+            {
+                InfoWindow incorrectPosition = new InfoWindow("Выберите должность");
+                incorrectPosition.Show();
+                return;
+            }
+            if (String.IsNullOrWhiteSpace(Login.Text))
+            {
+                InfoWindow incorrectLogin = new InfoWindow("Введите логин");
+                incorrectLogin.Show();
+                return;
+            }
+            if (String.IsNullOrWhiteSpace(Pass.Password))
+            {
+                InfoWindow incorrectPassword = new InfoWindow("Введите пароль");
+                incorrectPassword.Show();
+                return;
+            }
+            if (employee != null)
             {
                 try
                 {
@@ -55,7 +78,7 @@ namespace Resonate.Pages.Employees
                     {
                         InfoWindow info = new InfoWindow("Информация о сотруднике успешно обновлена");
                         info.Show();
-                        MainWindow.init.frame.Navigate(new Pages.Employees.Main(_token));
+                        MainWindow.init.frame.Navigate(new Pages.Employees.Main());
                     }
                     else
                     {
@@ -112,13 +135,13 @@ namespace Resonate.Pages.Employees
         }
         public async Task LoadCurrentEmployees()
         {
-            var employee = await EmployeeContext.GetCurrentEmployee(_token);
+            var employee = await EmployeeContext.GetCurrentEmployee(MainWindow.Token);
             SystemUser.Text = $"Система: {employee.GetShortName(employee.Full_Name)}";
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.frame.Navigate(new Pages.Employees.Main(_token));
+            MainWindow.init.frame.Navigate(new Pages.Employees.Main());
         }
 
         private async void LoadEmployeesDataInField(Model.Employees employee)

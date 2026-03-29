@@ -25,7 +25,7 @@
             <PasswordBox x:Name="EmployeePassword" Style="{StaticResource MainPasswordbox}"/>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
-            <Button Click="AuthBtn" Style="{StaticResource AuthButton}" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,20"/>
+            <Button Click="AuthBtn" x:Name="AuthButton" IsDefault="True" Style="{StaticResource AuthButton}" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,20"/>
         </StackPanel>
     </Grid>
 </Page>

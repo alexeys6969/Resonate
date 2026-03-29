@@ -22,11 +22,9 @@ namespace Resonate.Pages.Employees
     /// </summary>
     public partial class Main : Page
     {
-        private static string _token;
-        public Main(string token)
+        public Main()
         {
             InitializeComponent();
-            _token = token;
             LoadCurrentEmployees();
             LoadEmployees();
         }
@@ -41,18 +39,18 @@ namespace Resonate.Pages.Employees
 
         public async Task LoadCurrentEmployees()
         {
-            var employee = await EmployeeContext.GetCurrentEmployee(_token);
+            var employee = await EmployeeContext.GetCurrentEmployee(MainWindow.Token);
             SystemUser.Text = $"Система: {employee.GetShortName(employee.Full_Name)}";
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.frame.Navigate(new Pages.Main(_token));
+            MainWindow.init.frame.Navigate(new Pages.Main());
         }
 
         private void Add(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.frame.Navigate(new Pages.Employees.Add(_token));
+            MainWindow.init.frame.Navigate(new Pages.Employees.Add());
         }
     }
 }

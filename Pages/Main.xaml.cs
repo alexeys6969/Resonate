@@ -23,13 +23,10 @@ namespace Resonate.Pages
     /// </summary>
     public partial class Main : Page
     {
-        private static string _token;
-        public Main(string token)
+        public Main()
         {
             InitializeComponent();
-            _token = token;
             LoadUserData();
-            LoadPermissions();
         }
 
         private void ReportForm(object sender, RoutedEventArgs e)
@@ -38,40 +35,36 @@ namespace Resonate.Pages
         }
         private async void LoadUserData()
         {
-            var employee = await EmployeeContext.GetCurrentEmployee(_token);
+            var employee = await EmployeeContext.GetCurrentEmployee(MainWindow.Token);
             if (employee != null)
             {
                 string UserName = employee.Full_Name;
                 SystemUser.Text = $"Система: {employee.GetShortName(UserName)}";
+                //Загрузка разрешений пользователя
+                if (employee.Position == "Кассир")
+                {
+                    EmployeeBtn.Visibility = Visibility.Collapsed;
+                    CategoryBtn.Visibility = Visibility.Collapsed;
+                    SupplierBtn.Visibility = Visibility.Collapsed;
+                    SupplyBtn.Visibility = Visibility.Collapsed;
+                }
+                else if (employee.Position == "Менеджер")
+                {
+                    EmployeeBtn.Visibility = Visibility.Collapsed;
+                    CategoryBtn.Visibility = Visibility.Collapsed;
+                    SaleBtn.Visibility = Visibility.Collapsed;
+                }
             }
-        }
-        private async void LoadPermissions()
-        {
-            var employee = await EmployeeContext.GetCurrentEmployee(_token);
-            if(employee.Position == "Кассир")
-            {
-                EmployeeBtn.Visibility = Visibility.Collapsed;
-                CategoryBtn.Visibility = Visibility.Collapsed;
-                SupplierBtn.Visibility = Visibility.Collapsed;
-                SupplyBtn.Visibility = Visibility.Collapsed;
-            } else if(employee.Position == "Менеджер")
-            {
-                EmployeeBtn.Visibility = Visibility.Collapsed;
-                CategoryBtn.Visibility = Visibility.Collapsed;
-                SaleBtn.Visibility = Visibility.Collapsed;
-            }
-
-
         }
 
         private void CategoryClick(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.init.frame.Navigate(new Pages.Category.Main());
         }
 
         private void EmployeeClick(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.frame.Navigate(new Pages.Employees.Main(_token));
+            MainWindow.init.frame.Navigate(new Pages.Employees.Main());
         }
 
         private void ProductClick(object sender, RoutedEventArgs e)

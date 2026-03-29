@@ -34,7 +34,7 @@ namespace Resonate.Pages.Employees.Elements
 
         private void Update(object sender, RoutedEventArgs e)
         {
-            MainWindow.init.frame.Navigate(new Pages.Employees.Add(MainWindow.Token, employee));
+            MainWindow.init.frame.Navigate(new Pages.Employees.Add(employee));
         }
 
         private async void Delete(object sender, RoutedEventArgs e)
@@ -42,7 +42,7 @@ namespace Resonate.Pages.Employees.Elements
             try
             {
                 DialogWindow dialog = new DialogWindow($"Вы точно хотите удалить сотрудника {employee.Full_Name}?");
-                dialog.Show();
+                dialog.ShowDialog();
                 if (dialog.DialogResult == true)
                 {
                     bool result = await EmployeeContext.DeleteEmployee(employee.Id);
@@ -50,7 +50,7 @@ namespace Resonate.Pages.Employees.Elements
                     {
                         InfoWindow info = new InfoWindow($"Сотрудник {employee.Full_Name} успешно удален");
                         info.Show();
-                        MainWindow.init.frame.Navigate(new Pages.Employees.Main(MainWindow.Token));
+                        MainWindow.init.frame.Navigate(new Pages.Employees.Main());
                     }
                     else
                     {
@@ -62,9 +62,7 @@ namespace Resonate.Pages.Employees.Elements
             {
                 InfoWindow info = new InfoWindow($"Возникла ошибка {ex.Message}");
                 info.Show();
-            }
-            
-            
+            }            
         }
 
         private async void LoadItem()

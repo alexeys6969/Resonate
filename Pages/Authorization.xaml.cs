@@ -39,25 +39,40 @@ namespace Resonate.Pages
             } else
             {
                 MainWindow.Token = Token;
-                MainWindow.init.frame.Navigate(new Pages.Main(Token));
+                MainWindow.init.frame.Navigate(new Pages.Main());
             }
         }
 
         private void AuthBtn(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(EmployeeLogin.Text))
+            try
             {
-                InfoWindow info = new InfoWindow("Необходимо указать логин пользователя");
-                info.Show();
-                return;
+                AuthButton.IsEnabled = true;
+                if (string.IsNullOrEmpty(EmployeeLogin.Text))
+                {
+                    InfoWindow info = new InfoWindow("Необходимо указать логин пользователя");
+                    info.Show();
+                    return;
+                }
+                if (string.IsNullOrEmpty(EmployeePassword.Password))
+                {
+                    InfoWindow info = new InfoWindow("Необходимо указать пароль");
+                    info.Show();
+                    return;
+                }
+                Auth(EmployeeLogin.Text, EmployeePassword.Password);
             }
-            if (string.IsNullOrEmpty(EmployeePassword.Password))
+            catch (Exception ex)
             {
                 InfoWindow info = new InfoWindow("Необходимо указать пароль");
                 info.Show();
                 return;
+            } 
+            finally
+            {
+                AuthButton.IsEnabled = false;
             }
-            Auth(EmployeeLogin.Text, EmployeePassword.Password);
+
         }
     }
 }

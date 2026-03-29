@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Resonate.Windows"
         mc:Ignorable="d"
-        Title="DialogWindow" Height="260" Width="520" Background="#292929">
+        Title="DialogWindow" Height="260" Width="520" Background="#292929" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen">
     <StackPanel HorizontalAlignment="Center" Width="345">
         <TextBlock Style="{StaticResource LogoTb}"/>
-        <TextBlock Style="{StaticResource MainTb}" TextWrapping="Wrap" x:Name="questionText" Text="Выберите таблицу, для которой надо сформировать отчет" Margin="0" />
+        <TextBlock Style="{StaticResource MainTb}" TextWrapping="Wrap" VerticalAlignment="Center" x:Name="questionText" Text="Выберите таблицу, для которой надо сформировать отчет" Margin="0" />
         <Grid VerticalAlignment="Bottom" Margin="0,20,0,20">
             <Button Style="{StaticResource MainButton}" Content="Да" Click="Yes" HorizontalAlignment="Left" Height="35" Width="150"/>
             <Button Style="{StaticResource MainButton}" Content="Нет" Click="No" HorizontalAlignment="Right" Height="35" Width="150"/>
