@@ -27,6 +27,11 @@ namespace Resonate.Pages.Products
 
         private void Exit(object sender, RoutedEventArgs e)
         {
+            MainWindow.init.frame.Navigate(new Pages.Main());
+        }
+
+        private void Add(object sender, RoutedEventArgs e)
+        {
 
         }
     }

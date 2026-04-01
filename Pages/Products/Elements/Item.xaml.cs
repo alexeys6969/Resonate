@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Resonate.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace Resonate.Pages.Products.Elements
         public Item()
         {
             InitializeComponent();
+        }
+        private async void LoadItem()
+        {
+            var currentProduct = await EmployeeContext.GetEmployeeById(employee.Id);
+            FIO.Text = employee.Full_Name;
+            Position.Text = employee.Position;
         }
     }
 }
