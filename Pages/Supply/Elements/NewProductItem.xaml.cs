@@ -29,7 +29,7 @@ namespace Resonate.Pages.Supply.Elements
 
         private void DeleteProduct(object sender, RoutedEventArgs e)
         {
-            add.NewProductParent.Children.Remove(this);
+            
         }
     }
 }

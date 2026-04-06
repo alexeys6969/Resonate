@@ -5,33 +5,146 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Resonate.Pages.Category"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Main" Background="#292929">
+      d:DesignHeight="900" d:DesignWidth="1400"
+      Title="Категории" Background="#1a1a1a">
 
     <Grid>
+        <!-- ✅ Сначала определения колонок -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3.75*"/>
-            <ColumnDefinition Width="92.5*"/>
-            <ColumnDefinition Width="3.75*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="92*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1" VerticalAlignment="Top">
-            <Grid>
+
+        <!-- Фон -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1a1a1a" Offset="0"/>
+                <GradientStop Color="#1f1f1f" Offset="0.5"/>
+                <GradientStop Color="#1a1a1a" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Декор -->
+        <Ellipse Width="600" Height="600" Fill="#8EED45" Opacity="0.03" 
+                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-200,-200,0,0"/>
+        <Ellipse Width="500" Height="500" Fill="#24E3ED" Opacity="0.04" 
+                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-150,-150"/>
+
+        <!-- Верхняя панель -->
+        <Border Grid.Column="1" VerticalAlignment="Top" 
+                Background="#252525" CornerRadius="0,0,20,20"
+                BorderBrush="#3a3a3a" BorderThickness="0,0,0,1"
+                Effect="{StaticResource CardShadow}">
+            <Grid Margin="30,20,30,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Система: Иванов И. И." x:Name="SystemUser" Style="{StaticResource MainTb}" TextDecorations="Underline" Margin="0,28,0,0"/>
-                <TextBlock Style="{StaticResource LogoTb}" VerticalAlignment="Center" Grid.Column="1"/>
-                <Button Style="{StaticResource MainButton}" Click="Exit" Content="Выйти" Grid.Column="2" Margin="78,20,0,0"/>
+
+                <!-- Пользователь -->
+                <TextBlock x:Name="SystemUser" 
+                           Grid.Column="0"
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="14" FontWeight="Light"
+                           Foreground="#cccccc"
+                           VerticalAlignment="Center"
+                           TextDecorations="Underline"
+                           Cursor="Hand">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="#8EED45"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <!-- Логотип -->
+                <TextBlock Grid.Column="1" 
+                           Text="Resonate"
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="28" FontWeight="Bold"
+                           VerticalAlignment="Center">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#8EED45" Offset="0"/>
+                            <GradientStop Color="#24E3ED" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+
+                <!-- Кнопка выхода -->
+                <Button Grid.Column="2" 
+                        Click="Exit"
+                        Content="Выйти"
+                        Style="{StaticResource IconButton}"
+                        HorizontalAlignment="Right"
+                        Width="120"/>
+            </Grid>
+        </Border>
+
+        <!-- Заголовок раздела + поиск -->
+        <StackPanel Grid.Column="1" Margin="0,100,0,20">
+            <Grid Margin="30,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Категории товаров" 
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="24" FontWeight="SemiBold"
+                           Foreground="#ffffff"
+                           VerticalAlignment="Center"/>
+
+                <!-- Поиск (опционально) -->
+                <Border Grid.Column="1"
+                        Background="#2e2e2e" 
+                        BorderBrush="#444444"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="12,8"
+                        Width="280">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="SearchBox"
+                                 Style="{StaticResource TransparentTextBox}"
+                                 Tag="Поиск категории..."
+                                 TextChanged="SearchBox_TextChanged"/>
+                        <TextBlock Grid.Column="1"
+                                   Text="🔍"
+                                   FontSize="16"
+                                   Foreground="#888888"
+                                   VerticalAlignment="Center"
+                                   Margin="8,0,0,0"/>
+                    </Grid>
+                </Border>
             </Grid>
         </StackPanel>
-        <ScrollViewer Grid.Column="1" Margin="0,65,0,90" 
-              VerticalScrollBarVisibility="Hidden">
-            <StackPanel x:Name="CategoryParent">
-            </StackPanel>
-        </ScrollViewer>
-        <Button Grid.Column="1" Style="{StaticResource MainButton}" Content="Добавить" Click="Add" VerticalAlignment="Bottom" Margin="0,10,0,40"/>
 
+        <!-- Список категорий -->
+        <ScrollViewer Grid.Column="1" Margin="0,160,0,90" 
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="CategoryParent" Margin="30,0"/>
+        </ScrollViewer>
+
+        <!-- Кнопка добавления -->
+        <Button Grid.Column="1" 
+                Click="Add" 
+                Content="＋ Добавить категорию"
+                Style="{StaticResource PrimaryButton}"
+                VerticalAlignment="Bottom" 
+                Margin="0,0,0,25"
+                Width="280"
+                HorizontalAlignment="Right"/>
     </Grid>
 </Page>

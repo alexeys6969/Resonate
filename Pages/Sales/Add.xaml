@@ -5,43 +5,267 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Resonate.Pages.Sales"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Add" Background="#292929">
+      d:DesignHeight="1200" d:DesignWidth="1400"
+      Title="Новая продажа" Background="#1a1a1a">
 
     <Grid>
+        <!-- ✅ Определения колонок в начале -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3.75*"/>
-            <ColumnDefinition Width="92.5*"/>
-            <ColumnDefinition Width="3.75*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="92*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1" VerticalAlignment="Top">
-            <Grid>
+
+        <!-- Фон -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1a1a1a" Offset="0"/>
+                <GradientStop Color="#1f1f1f" Offset="0.5"/>
+                <GradientStop Color="#1a1a1a" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Декор -->
+        <Ellipse Width="600" Height="600" Fill="#8EED45" Opacity="0.03" 
+                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-200,-200,0,0"/>
+        <Ellipse Width="500" Height="500" Fill="#24E3ED" Opacity="0.04" 
+                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-150,-150"/>
+
+        <!-- Верхняя панель -->
+        <Border Grid.Column="1" VerticalAlignment="Top" 
+                Background="#252525" BorderBrush="#3a3a3a" BorderThickness="0,0,0,1"
+                Effect="{StaticResource CardShadow}">
+            <Grid Margin="30,20,30,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Система: Иванов И. И." Style="{StaticResource MainTb}" TextDecorations="Underline" Margin="0,28,0,0"/>
-                <TextBlock Style="{StaticResource LogoTb}" VerticalAlignment="Center" Grid.Column="1"/>
-                <Button Style="{StaticResource MainButton}" Content="Выйти" Grid.Column="2" Margin="78,20,0,0"/>
+
+                <TextBlock x:Name="SystemUser"
+                           Grid.Column="0"
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="14" FontWeight="Light"
+                           Foreground="#cccccc"
+                           VerticalAlignment="Center"
+                           TextDecorations="Underline"
+                           Cursor="Hand">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="#8EED45"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <TextBlock Grid.Column="1" 
+                           Text="Resonate"
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="28" FontWeight="Bold"
+                           VerticalAlignment="Center">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#8EED45" Offset="0"/>
+                            <GradientStop Color="#24E3ED" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+
+                <Button Grid.Column="2" 
+                        Click="Exit"
+                        Content="Выйти"
+                        Style="{StaticResource IconButton}"
+                        HorizontalAlignment="Right"
+                        Width="120"/>
             </Grid>
-        </StackPanel>
-        <ScrollViewer Grid.Column="1" Margin="0,90,0,30" 
-              VerticalScrollBarVisibility="Hidden">
-            <StackPanel>
-                <TextBlock Text="Введите код" Style="{StaticResource MainTb}" Margin="0" HorizontalAlignment="Left"/>
-                <TextBox x:Name="Code" Style="{StaticResource MainTextbox}"/>
-                <TextBlock Text="Выберите кассира" Style="{StaticResource MainTb}" Margin="0,15,0,0" HorizontalAlignment="Left"/>
-                <ComboBox x:Name="Cashier" Style="{StaticResource RoundedWhiteComboBox}"/>
-                <TextBlock Text="Введите дату и время (дд.мм.гггг чч:мм)" Style="{StaticResource MainTb}" Margin="0,15,0,0" HorizontalAlignment="Left"/>
-                <TextBox x:Name="DateTimeSale" Style="{StaticResource MainTextbox}" Margin="0,10,0,0"/>
-                <TextBlock Text="Выберите товары:" Style="{StaticResource MainTb}" Margin="0,15,0,0" HorizontalAlignment="Left"/>
-                <StackPanel x:Name="NewProductParent">
-                    
+        </Border>
+
+        <!-- Карточка формы -->
+        <Border Grid.Column="1" 
+                VerticalAlignment="Top"
+                Background="#252525" 
+                BorderBrush="#3a3a3a"
+                BorderThickness="1"
+                Padding="40,35"
+                Margin="0,100,0,100"
+                Effect="{StaticResource CardShadow}">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel MaxWidth="700" HorizontalAlignment="Center">
+
+                    <!-- Заголовок формы -->
+                    <TextBlock Text="🧾 Новая продажа"
+                               FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                               FontSize="24" FontWeight="SemiBold"
+                               Foreground="#ffffff"
+                               Margin="0,0,0,30"
+                               HorizontalAlignment="Center"/>
+
+                    <!-- Поле: Код продажи -->
+                    <StackPanel Margin="0,0,0,18">
+                        <TextBlock Text="Код продажи *" 
+                                   FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                   FontSize="14" FontWeight="Medium"
+                                   Foreground="#cccccc"
+                                   Margin="0,0,0,10"/>
+                        <Border x:Name="CodeBorder"
+                                Background="#2e2e2e" 
+                                BorderBrush="#444444"
+                                BorderThickness="1.5"
+                                Padding="16,12"
+                                CornerRadius="20">
+                            <TextBox x:Name="Code"
+                                     Style="{StaticResource TransparentTextBox}"
+                                     Tag="Например: SALE-2026-001"
+                                     GotFocus="Input_GotFocus"
+                                     LostFocus="Input_LostFocus"
+                                     TextChanged="Code_TextChanged"/>
+                        </Border>
+                        <TextBlock x:Name="CodeError"
+                                   Text="" 
+                                   FontSize="12"
+                                   Foreground="#ff5252"
+                                   Margin="0,6,0,0"
+                                   Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- Поле: Кассир -->
+                    <StackPanel Margin="0,0,0,18">
+                        <TextBlock Text="Кассир *" 
+                                   FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                   FontSize="14" FontWeight="Medium"
+                                   Foreground="#cccccc"
+                                   Margin="0,0,0,10"/>
+                        <Border x:Name="CashierBorder"
+                                Background="#2e2e2e" 
+                                BorderBrush="#444444"
+                                BorderThickness="1.5"
+                                Padding="16,8"
+                                CornerRadius="20">
+                            <ComboBox x:Name="Cashier"
+                                      Style="{StaticResource DarkComboBox}"
+                                      Tag="Выберите кассира"
+                                      GotFocus="Input_GotFocus"
+                                      LostFocus="Input_LostFocus"
+                                      SelectionChanged="Cashier_SelectionChanged"/>
+                        </Border>
+                        <TextBlock x:Name="CashierError"
+                                   Text="" 
+                                   FontSize="12"
+                                   Foreground="#ff5252"
+                                   Margin="0,6,0,0"
+                                   Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- Поле: Дата и время -->
+                    <StackPanel Margin="0,0,0,25">
+                        <TextBlock Text="Дата и время *" 
+                                   FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                   FontSize="14" FontWeight="Medium"
+                                   Foreground="#cccccc"
+                                   Margin="0,0,0,10"/>
+                        <Border x:Name="DateTimeBorder"
+                                Background="#2e2e2e" 
+                                BorderBrush="#444444"
+                                BorderThickness="1.5"
+                                Padding="16,12"
+                                CornerRadius="20">
+                            <TextBox x:Name="DateTimeSale"
+                                     Style="{StaticResource TransparentTextBox}"
+                                     Tag="дд.мм.гггг чч:мм"
+                                     GotFocus="Input_GotFocus"
+                                     LostFocus="Input_LostFocus"
+                                     TextChanged="DateTimeSale_TextChanged"/>
+                        </Border>
+                        <TextBlock x:Name="DateTimeError"
+                                   Text="" 
+                                   FontSize="12"
+                                   Foreground="#ff5252"
+                                   Margin="0,6,0,0"
+                                   Visibility="Collapsed"/>
+                        <TextBlock Text="Формат: 16.02.2026 14:30" 
+                                   FontSize="11"
+                                   Foreground="#666666"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+
+                    <!-- Разделитель -->
+                    <Rectangle Height="1" Fill="#3a3a3a" Margin="0,10,0,20"/>
+
+                    <!-- Секция: Товары -->
+                    <TextBlock Text="📦 Товары в чеке" 
+                               FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                               FontSize="18" FontWeight="SemiBold"
+                               Foreground="#ffffff"
+                               Margin="0,0,0,15"/>
+
+                    <!-- Список добавленных товаров -->
+                    <Border Background="#222222" 
+                            BorderBrush="#3a3a3a"
+                            BorderThickness="1"
+                            Padding="15"
+                            Margin="0,0,0,15"
+                            MinHeight="100"
+                            CornerRadius="20">
+                        <StackPanel x:Name="NewProductParent"/>
+                    </Border>
+
+                    <!-- Кнопка добавления товара -->
+                    <Button Click="AddProduct" 
+                            Content="＋ Добавить товар"
+                            Style="{StaticResource SecondaryButton}"
+                            HorizontalAlignment="Left"
+                            Width="200"
+                            Margin="0,0,0,25"/>
+
+                    <!-- Блок: Итого -->
+                    <Border Background="#2e2e2e"
+                            BorderBrush="#8EED45"
+                            BorderThickness="1"
+                            Padding="20,15"
+                            Margin="0,0,0,30"
+                            CornerRadius="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Итого:" 
+                                       FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                       FontSize="16" FontWeight="Medium"
+                                       Foreground="#cccccc"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TotalAmount"
+                                       Grid.Column="1"
+                                       Text="0.00 ₽"
+                                       FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                       FontSize="24" FontWeight="Bold"
+                                       Foreground="#8EED45"
+                                       VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Кнопки действий -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="AddEdit" 
+                                Click="EditInfo"
+                                Style="{StaticResource PrimaryButton}"
+                                Content="💰 Оформить продажу"
+                                Width="240"
+                                Margin="0,0,15,0"/>
+
+                        <Button Content="Отмена"
+                                Click="Exit"
+                                Style="{StaticResource SecondaryButton}"
+                                Width="140"/>
+                    </StackPanel>
+
                 </StackPanel>
-                <Button Click="AddProduct" Style="{StaticResource MainButton}" BorderThickness="0" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="0" FontSize="14" Foreground="#9F9F9F" Margin="0" Content="Добавить"/>
-                <Button x:Name="AddEdit" Click="EditInfo" Style="{StaticResource MainButton}" Content="Добавить"/>
-            </StackPanel>
-        </ScrollViewer>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Page>

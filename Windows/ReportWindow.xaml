@@ -3,16 +3,85 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Resonate.Windows"
         mc:Ignorable="d"
-        Title="ReportWindow" Height="260" Width="520" Background="#292929">
-    <StackPanel HorizontalAlignment="Center" Width="345">
-        <TextBlock Style="{StaticResource LogoTb}"/>
-        <TextBlock Style="{StaticResource MainTb}" TextWrapping="Wrap" Text="Выберите таблицу, для которой надо сформировать отчет" Margin="0"/>
-        <ComboBox Style="{StaticResource RoundedWhiteComboBox}" Margin="0,15,0,0"/>
-        <Grid VerticalAlignment="Bottom" Margin="0,20,0,0">
-            <Button Style="{StaticResource MainButton}" Content="Отчет" HorizontalAlignment="Left" Height="35" Width="150"/>
-            <Button Style="{StaticResource MainButton}" Content="Отмена" HorizontalAlignment="Right" Height="35" Width="150"/>
+        Title="Формирование отчёта" Height="320" Width="480" 
+        Background="#1a1a1a" ResizeMode="NoResize" 
+        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="0"/>
+    </WindowChrome.WindowChrome>
+
+    <Border Background="#252525" CornerRadius="20" BorderBrush="#3a3a3a" BorderThickness="1"
+            Effect="{StaticResource CardShadow}">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <StackPanel HorizontalAlignment="Center" Margin="0,0,0,20">
+                <TextBlock Text="📊" FontSize="32" HorizontalAlignment="Center"/>
+                <TextBlock Text="Resonate" 
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="24" FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Margin="0,8,0,0">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#8EED45" Offset="0"/>
+                            <GradientStop Color="#24E3ED" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Контент -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <TextBlock Text="Выберите таблицу для отчёта:" 
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="14" FontWeight="Medium"
+                           Foreground="#cccccc"
+                           Margin="0,0,0,12"
+                           HorizontalAlignment="Center"/>
+
+                <Border Background="#2e2e2e" 
+                        BorderBrush="#444444"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="12,8">
+                    <ComboBox x:Name="ReportTableComboBox"
+                              Style="{StaticResource DarkComboBox}"
+                              Tag="Выберите таблицу..."
+                              FontSize="15">
+                        <ComboBoxItem Content="📦 Товары" Tag="Products"/>
+                        <ComboBoxItem Content="👥 Сотрудники" Tag="Employees"/>
+                        <ComboBoxItem Content="🧾 Продажи" Tag="Sales"/>
+                        <ComboBoxItem Content="📥 Поставки" Tag="Supply"/>
+                        <ComboBoxItem Content="🏢 Поставщики" Tag="Suppliers"/>
+                        <ComboBoxItem Content="📁 Категории" Tag="Categories"/>
+                    </ComboBox>
+                </Border>
+            </StackPanel>
+
+            <!-- Кнопки -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="GenerateButton"
+                        Click="GenerateReport"
+                        Content="📄 Сформировать"
+                        Style="{StaticResource DialogButton}"
+                        Width="160" Height="45"
+                        Margin="0,0,15,0"/>
+
+                <Button x:Name="CancelButton"
+                        Click="CancelReport"
+                        Content="Отмена"
+                        Style="{StaticResource DialogButtonSecondary}"
+                        Width="120" Height="45"/>
+            </StackPanel>
         </Grid>
-    </StackPanel>
+    </Border>
 </Window>

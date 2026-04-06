@@ -4,27 +4,106 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Resonate.Pages.Category.Elements"
-             mc:Ignorable="d" Margin="0,20,0,0" MinHeight="90">
-    <Border Background="#FFFFFF" CornerRadius="20">
-        <Grid >
+             mc:Ignorable="d" 
+             Margin="0,15,0,0" 
+             MinHeight="100">
+
+    <UserControl.Resources>
+        <!-- Анимация появления -->
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                           From="0" To="1" Duration="0:0:0.3"/>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Border x:Name="RootBorder"
+            Background="#2a2a2a" 
+            BorderBrush="#3a3a3a"
+            BorderThickness="1,1,1,1"
+            CornerRadius="16"
+            Padding="25,20"
+            Cursor="Hand">
+
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Effect" Value="{x:Null}"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="#8EED45"/>
+                        <Setter Property="Background" Value="#2e2e2e"/>
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect Color="#8EED45" 
+                                                BlurRadius="20" 
+                                                ShadowDepth="0" 
+                                                Opacity="0.3"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,35,0">
-                <TextBlock Text="Название: Струнные инструменты" x:Name="Name" Style="{StaticResource MainTb}" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Medium" Foreground="#000000" Margin="10,10,0,0"/>
-                <TextBlock Text="Описание: Гитары, скрипки, виолончели и другие струнные" x:Name="Description" TextWrapping="Wrap" Style="{StaticResource MainTb}" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#000000" Margin="10,0,0,10"/>
+
+            <!-- Левая часть: Название и описание -->
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock x:Name="Name" 
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="18" 
+                           FontWeight="SemiBold"
+                           Foreground="#ffffff"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,6"/>
+
+                <TextBlock x:Name="Description" 
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="14" 
+                           FontWeight="Light"
+                           Foreground="#999999"
+                           TextWrapping="Wrap"
+                           MaxWidth="600"/>
             </StackPanel>
-            <StackPanel Grid.Column="1" Margin="65,0,15,0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Height="45" Width="45" BorderThickness="0" VerticalAlignment="Center" Click="EditInfo">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/Images/redact.png"/>
-                    </Button.Background>
+
+            <!-- Правая часть: Кнопки действий -->
+            <StackPanel Grid.Column="1" 
+                        Orientation="Horizontal" 
+                        VerticalAlignment="Center"
+                        Margin="20,0,0,0">
+
+                <!-- Кнопка редактирования -->
+                <Button x:Name="EditButton"
+                        Width="42" 
+                        Height="42"
+                        Margin="0,0,10,0"
+                        Click="EditInfo"
+                        Style="{StaticResource ActionButton}"
+                        Tag="edit">
+                    <Viewbox Width="20" Height="20">
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="#8EED45" 
+                                  Data="M3,17.25V21H6.75L17.81,9.94L14.06,6.19L3,17.25M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04Z"/>
+                        </Canvas>
+                    </Viewbox>
                 </Button>
-                <Button Height="45" Width="45" Margin="10,0,0,0" BorderThickness="0" VerticalAlignment="Center" Click="Delete">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/Images/delete.png"/>
-                    </Button.Background>
+
+                <!-- Кнопка удаления -->
+                <Button x:Name="DeleteButton"
+                        Width="42" 
+                        Height="42"
+                        Click="Delete"
+                        Style="{StaticResource ActionButton}"
+                        Tag="delete">
+                    <Viewbox Width="20" Height="20">
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="#ff5252" 
+                                  Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                        </Canvas>
+                    </Viewbox>
                 </Button>
             </StackPanel>
         </Grid>

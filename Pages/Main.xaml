@@ -5,236 +5,290 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Resonate.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Main" Background="#292929">
+      d:DesignHeight="900" d:DesignWidth="1400"
+      Title="Main" Background="#1a1a1a">
+
+    <Page.Resources>
+        <!-- Анимация появления карточек -->
+        <Storyboard x:Key="CardFadeIn">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                           From="0" To="1" Duration="0:0:0.3"/>
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                              From="0,20,0,0" To="0,0,0,0" Duration="0:0:0.3"/>
+        </Storyboard>
+    </Page.Resources>
 
     <Grid>
+        <!-- ✅ 1. Сначала определяем колонки -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3.75*"/>
-            <ColumnDefinition Width="92.5*"/>
-            <ColumnDefinition Width="3.75*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="92*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1" VerticalAlignment="Top">
-            <Grid>
+
+        <!-- 2. Затем фоны и декорации -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1a1a1a" Offset="0"/>
+                <GradientStop Color="#1f1f1f" Offset="0.5"/>
+                <GradientStop Color="#1a1a1a" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Ellipse Width="600" Height="600" Fill="#8EED45" Opacity="0.03" 
+                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-200,-200,0,0"/>
+        <Ellipse Width="500" Height="500" Fill="#24E3ED" Opacity="0.04" 
+                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-150,-150"/>
+
+        <!-- 3. Затем верхняя панель -->
+        <Border Grid.Column="1" VerticalAlignment="Top" 
+                Background="#252525" CornerRadius="0,0,20,20"
+                BorderBrush="#3a3a3a" BorderThickness="0,0,0,1"
+                Effect="{StaticResource CardShadow}">
+            <Grid Margin="30,20,30,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Система: Иванов И. И." x:Name="SystemUser" Style="{StaticResource MainTb}" TextDecorations="Underline" Margin="0,28,0,0"/>
-                <TextBlock Style="{StaticResource LogoTb}" VerticalAlignment="Center" Grid.Column="1"/>
-                <Button Style="{StaticResource MainButton}" Click="Exit" Content="Выйти" Grid.Column="2" Margin="78,20,0,0"/>
+
+                <!-- Пользователь -->
+                <TextBlock x:Name="SystemUser" 
+                           Grid.Column="0"
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="14" FontWeight="Light"
+                           Foreground="#cccccc"
+                           VerticalAlignment="Center"
+                           TextDecorations="Underline"
+                           Cursor="Hand">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="#8EED45"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <!-- Логотип -->
+                <TextBlock Grid.Column="1" 
+                           Text="Resonate"
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="28" FontWeight="Bold"
+                           VerticalAlignment="Center">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#8EED45" Offset="0"/>
+                            <GradientStop Color="#24E3ED" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+
+                <!-- Кнопка выхода -->
+                <Button Grid.Column="2" 
+                        Click="Exit"
+                        Content="Выйти"
+                        Style="{StaticResource IconButton}"
+                        HorizontalAlignment="Right"
+                        Width="120"/>
             </Grid>
-        </StackPanel>
-        <ScrollViewer Grid.Column="1" Margin="0,125,0,120" 
-              VerticalScrollBarVisibility="Hidden">
-            <StackPanel>
+        </Border>
+
+        <!-- 4. Затем основной контент -->
+        <ScrollViewer Grid.Column="1" Margin="0,110,0,30" 
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <StackPanel Margin="10,0">
+                <!-- Заголовок раздела -->
+                <TextBlock Text="Панель управления" 
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="24" FontWeight="SemiBold"
+                           Foreground="#ffffff"
+                           Margin="0,0,0,25"/>
+
+                <!-- Сетка карточек -->
                 <UniformGrid x:Name="MainWrapPanel" 
-                    Columns="2" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    Margin="0,0,-10,0">
-                    <!--КНОПКА КАТЕГОРИЙ-->
-                    <Button Style="{StaticResource AuthButton}" Margin="0,10,10,0" 
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    MinHeight="100"
-                    Background="#FFFFFF"
-                    x:Name="CategoryBtn"
-                    Click="CategoryClick">
-                        <Border CornerRadius="15" 
-                        Background="#FFFFFF"
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                             Columns="3" 
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Top"
+                             Margin="0,0,0,20">
+
+                    <!-- 🔹 КАТЕГОРИИ -->
+                    <Button x:Name="CategoryBtn" Click="CategoryClick"
+                            Style="{StaticResource DashboardCard}"
+                            Margin="0,0,15,15">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Border Width="70" Height="70" 
+                                    Background="#2e2e2e" 
+                                    CornerRadius="16"
+                                    BorderBrush="#444444"
+                                    BorderThickness="1"
+                                    Margin="0,0,0,15">
                                 <Image Source="/Images/category.png" 
-                                Width="60" Height="60"
-                                Stretch="Uniform"
-                                HorizontalAlignment="Center"
-                                Margin="0,10,0,0"/>
-                                <TextBlock Style="{StaticResource MainTb}" 
-                                Text="Категории" 
-                                Foreground="#000000" 
-                                Margin="0,0,0,5"  
-                                FontSize="20"
-                                FontWeight="Light"
-                                HorizontalAlignment="Center"
-                                TextWrapping="Wrap"
-                                TextAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
+                                       Width="36" Height="36"
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Категории" 
+                                       FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                       FontSize="16" FontWeight="Medium"
+                                       Foreground="#ffffff"
+                                       HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
-                    <!--КНОПКА СОТРУДНИКОВ-->
-                    <Button Style="{StaticResource AuthButton}" Margin="0,10,10,0" 
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    MinHeight="100"
-                    Background="#FFFFFF"
-                    x:Name="EmployeeBtn"
-                    Click="EmployeeClick">
-                        <Border CornerRadius="15" 
-                        Background="#FFFFFF"
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- 🔹 СОТРУДНИКИ -->
+                    <Button x:Name="EmployeeBtn" Click="EmployeeClick"
+                            Style="{StaticResource DashboardCard}"
+                            Margin="0,0,15,15">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Border Width="70" Height="70" 
+                                    Background="#2e2e2e" 
+                                    CornerRadius="16"
+                                    BorderBrush="#444444"
+                                    BorderThickness="1"
+                                    Margin="0,0,0,15">
                                 <Image Source="/Images/employeesIcon.png" 
-                                Width="60" Height="60"
-                                Stretch="Uniform"
-                                HorizontalAlignment="Center"
-                                Margin="0,10,0,0"/>
-                                <TextBlock Style="{StaticResource MainTb}" 
-                                Text="Сотрудники" 
-                                Foreground="#000000" 
-                                Margin="0,0,0,5"  
-                                FontSize="20"
-                                FontWeight="Light"
-                                HorizontalAlignment="Center"
-                                TextWrapping="Wrap"
-                                TextAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
+                                       Width="36" Height="36"
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Сотрудники" 
+                                       FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                       FontSize="16" FontWeight="Medium"
+                                       Foreground="#ffffff"
+                                       HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
-                    <!--КНОПКА ТОВАРОВ-->
-                    <Button Style="{StaticResource AuthButton}" Margin="0,10,10,0" 
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    MinHeight="100"
-                    Background="#FFFFFF"
-                    x:Name="ProductBtn"
-                    Click="ProductClick">
-                        <Border CornerRadius="15" 
-                        Background="#FFFFFF"
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- 🔹 ТОВАРЫ -->
+                    <Button x:Name="ProductBtn" Click="ProductClick"
+                            Style="{StaticResource DashboardCard}"
+                            Margin="0,0,15,15">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Border Width="70" Height="70" 
+                                    Background="#2e2e2e" 
+                                    CornerRadius="16"
+                                    BorderBrush="#444444"
+                                    BorderThickness="1"
+                                    Margin="0,0,0,15">
                                 <Image Source="/Images/product.png" 
-                                Width="60" Height="60"
-                                Stretch="Uniform"
-                                HorizontalAlignment="Center"
-                                Margin="0,10,0,0"/>
-                                <TextBlock Style="{StaticResource MainTb}" 
-                                Text="Товары" 
-                                Foreground="#000000" 
-                                Margin="0,0,0,5"  
-                                FontSize="20"
-                                FontWeight="Light"
-                                HorizontalAlignment="Center"
-                                TextWrapping="Wrap"
-                                TextAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
+                                       Width="36" Height="36"
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Товары" 
+                                       FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                       FontSize="16" FontWeight="Medium"
+                                       Foreground="#ffffff"
+                                       HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
-                    <!--КНОПКА ПРОДАЖ-->
-                    <Button Style="{StaticResource AuthButton}" Margin="0,10,10,0" 
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    MinHeight="100"
-                    Background="#FFFFFF"
-                    x:Name="SaleBtn"
-                    Click="SaleClick">
-                        <Border CornerRadius="15" 
-                        Background="#FFFFFF"
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- 🔹 ПРОДАЖИ -->
+                    <Button x:Name="SaleBtn" Click="SaleClick"
+                            Style="{StaticResource DashboardCard}"
+                            Margin="0,0,15,15">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Border Width="70" Height="70" 
+                                    Background="#2e2e2e" 
+                                    CornerRadius="16"
+                                    BorderBrush="#444444"
+                                    BorderThickness="1"
+                                    Margin="0,0,0,15">
                                 <Image Source="/Images/sales.png" 
-                                Width="60" Height="60"
-                                Stretch="Uniform"
-                                HorizontalAlignment="Center"
-                                Margin="0,10,0,0"/>
-                                <TextBlock Style="{StaticResource MainTb}" 
-                                Text="Продажи" 
-                                Foreground="#000000" 
-                                Margin="0,0,0,5"  
-                                FontSize="20"
-                                FontWeight="Light"
-                                HorizontalAlignment="Center"
-                                TextWrapping="Wrap"
-                                TextAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
+                                       Width="36" Height="36"
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Продажи" 
+                                       FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                       FontSize="16" FontWeight="Medium"
+                                       Foreground="#ffffff"
+                                       HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
-                    <!--КНОПКА ПОСТАВЩИКОВ-->
-                    <Button Style="{StaticResource AuthButton}" Margin="0,10,10,0" 
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    MinHeight="100"
-                    Background="#FFFFFF"
-                    x:Name="SupplierBtn"
-                    Click="SupplierClick">
-                        <Border CornerRadius="15" 
-                        Background="#FFFFFF"
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- 🔹 ПОСТАВЩИКИ -->
+                    <Button x:Name="SupplierBtn" Click="SupplierClick"
+                            Style="{StaticResource DashboardCard}"
+                            Margin="0,0,15,15">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Border Width="70" Height="70" 
+                                    Background="#2e2e2e" 
+                                    CornerRadius="16"
+                                    BorderBrush="#444444"
+                                    BorderThickness="1"
+                                    Margin="0,0,0,15">
                                 <Image Source="/Images/suppliers.png" 
-                                Width="60" Height="60"
-                                Stretch="Uniform"
-                                HorizontalAlignment="Center"
-                                Margin="0,10,0,0"/>
-                                <TextBlock Style="{StaticResource MainTb}" 
-                                Text="Поставщики" 
-                                Foreground="#000000" 
-                                Margin="0,0,0,5"  
-                                FontSize="20"
-                                FontWeight="Light"
-                                HorizontalAlignment="Center"
-                                TextWrapping="Wrap"
-                                TextAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
+                                       Width="36" Height="36"
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Поставщики" 
+                                       FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                       FontSize="16" FontWeight="Medium"
+                                       Foreground="#ffffff"
+                                       HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
-                    <!--КНОПКА ПОСТАВОК-->
-                    <Button Style="{StaticResource AuthButton}" Margin="0,10,10,0" 
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    MinHeight="100"
-                    Background="#FFFFFF"
-                    x:Name="SupplyBtn"
-                    Click="SupplyClick">
-                        <Border CornerRadius="15" 
-                        Background="#FFFFFF"
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- 🔹 ПОСТАВКИ -->
+                    <Button x:Name="SupplyBtn" Click="SupplyClick"
+                            Style="{StaticResource DashboardCard}"
+                            Margin="0,0,15,15">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Border Width="70" Height="70" 
+                                    Background="#2e2e2e" 
+                                    CornerRadius="16"
+                                    BorderBrush="#444444"
+                                    BorderThickness="1"
+                                    Margin="0,0,0,15">
                                 <Image Source="/Images/supply.png" 
-                                Width="60" Height="60"
-                                Stretch="Uniform"
-                                HorizontalAlignment="Center"
-                                Margin="0,10,0,0"/>
-                                <TextBlock Style="{StaticResource MainTb}" 
-                                Text="Поставки" 
-                                Foreground="#000000" 
-                                Margin="0,0,0,5"  
-                                FontSize="20"
-                                FontWeight="Light"
-                                HorizontalAlignment="Center"
-                                TextWrapping="Wrap"
-                                TextAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
+                                       Width="36" Height="36"
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Поставки" 
+                                       FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                       FontSize="16" FontWeight="Medium"
+                                       Foreground="#ffffff"
+                                       HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"/>
+                        </StackPanel>
                     </Button>
-                </UniformGrid>
 
+                </UniformGrid>
             </StackPanel>
         </ScrollViewer>
-        <Button Click="ReportForm" Style="{StaticResource MainButton}" Content="Сформировать отчет" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,40,0,40"/>
+
+        <!-- 5. Кнопка отчёта внизу -->
+        <Button Grid.Column="1" 
+                Click="ReportForm" 
+                Content="Сформировать отчёт"
+                Style="{StaticResource PrimaryButton}"
+                VerticalAlignment="Bottom" 
+                Margin="0,0,0,25"/>
     </Grid>
 </Page>

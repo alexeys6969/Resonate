@@ -61,9 +61,15 @@
     </ApplicationDefinition>
     <Compile Include="Context\CategoryContext.cs" />
     <Compile Include="Context\EmployeeContext.cs" />
+    <Compile Include="Context\ProductContext.cs" />
+    <Compile Include="Context\SaleContext.cs" />
     <Compile Include="Model\Auth.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Employees.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\SaleClasses\Sale.cs" />
+    <Compile Include="Model\SaleClasses\SaleItem.cs" />
+    <Compile Include="Model\SaleClasses\SaleRequests.cs" />
     <Compile Include="Windows\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>

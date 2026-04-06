@@ -39,11 +39,11 @@ namespace Resonate.Context
             }
             return null;
         }
-        public static async Task<List<Employees>> GetEmployees()
+        public static async Task<List<Employees>> GetEmployees(string token)
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Get, url + "GETEmployees"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Get, url + $"GETEmployees?token={token}"))
                 {
                     var Response = await Client.SendAsync(Request);
 

@@ -4,100 +4,124 @@
              xmlns:local="clr-namespace:Resonate"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="LogoTb" TargetType="TextBlock">
-            <Setter Property="Text" Value="Resonate"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,20,0,0"/>
-            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
-            <Setter Property="FontSize" Value="32"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground">
-                <Setter.Value>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#FCC7C7" Offset="0.0"/>
-                        <GradientStop Color="#967777" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <!-- Тень для карточек -->
+        <DropShadowEffect x:Key="CardShadow" 
+                      Color="#000000" 
+                      Direction="270" 
+                      ShadowDepth="8" 
+                      BlurRadius="30" 
+                      Opacity="0.35"/>
 
-        <Style x:Key="MainTb" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="ExtraLight"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Margin" Value="0,20,0,0"/>
-        </Style>
-
-        <Style x:Key="MainTextbox" TargetType="TextBox">
-            <Setter Property="Height" Value="30"/>
+        <!-- Прозрачный TextBox -->
+        <Style x:Key="TransparentTextBox" TargetType="TextBox">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="0,10,0,0"/>
-            <Setter Property="BorderBrush" Value="#FFFFFF"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="ExtraLight"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="CaretBrush" Value="#8EED45"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
-                        <Border Name="border" 
-                            Background="Transparent"
-                            BorderBrush="#FFFFFF"
-                            BorderThickness="1"
-                            CornerRadius="15">
-                            <ScrollViewer x:Name="PART_ContentHost" 
-                                  VerticalAlignment="Center"
-                                  Margin="5,0"
-                                  Background="Transparent"/>
-                        </Border>
+                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style x:Key="TextboxWOBorder" TargetType="TextBox">
-            <Setter Property="Height" Value="30"/>
+        <!-- Прозрачный PasswordBox -->
+        <Style x:Key="TransparentPasswordBox" TargetType="PasswordBox">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="0"/>
-            <Setter Property="BorderBrush" Value="#FFFFFF"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="ExtraLight"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-        </Style>
-
-        <Style x:Key="MainPasswordbox" TargetType="PasswordBox">
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="0,10,0,0"/>
-            <Setter Property="BorderBrush" Value="#FFFFFF"/>
-            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="ExtraLight"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="CaretBrush" Value="#8EED45"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="PasswordBox">
-                        <Border Name="border" 
-                            Background="Transparent"
-                            BorderBrush="#FFFFFF"
-                            BorderThickness="1"
-                            CornerRadius="15">
-                            <ScrollViewer x:Name="PART_ContentHost" 
-                                  VerticalAlignment="Center"
-                                  Margin="5,0"
-                                  Background="Transparent"/>
-                        </Border>
+                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
+        <!-- Современная кнопка с новым градиентом -->
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#1a1a1a"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                            CornerRadius="14"
+                            BorderThickness="0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#8EED45" Offset="0"/>
+                                    <GradientStop Color="#24E3ED" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Hover эффект -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="border"
+                                                      Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                      To="#7AD435" Duration="0:0:0.2"/>
+                                            <ColorAnimation Storyboard.TargetName="border"
+                                                      Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                                      To="#1BCBD9" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="border"
+                                                      Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                      To="#8EED45" Duration="0:0:0.2"/>
+                                            <ColorAnimation Storyboard.TargetName="border"
+                                                      Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                                      To="#24E3ED" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <!-- Click эффект -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.98" ScaleY="0.98"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!-- Disabled -->
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Анимация пульсации для акцентов -->
+        <Storyboard x:Key="PulseAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                         From="1" To="0.7" Duration="0:0:1.5" 
+                         AutoReverse="True"/>
+        </Storyboard>
         <Style x:Key="AuthButton" TargetType="Button">
             <Setter Property="Height" Value="35"/>
             <Setter Property="Background" Value="#FFFFFF"/>
@@ -108,38 +132,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Name="border" 
-                        Background="{TemplateBinding Background}"
-                        BorderThickness="1"
-                        CornerRadius="15">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Content="{TemplateBinding Content}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Content" Value="Авторизоваться"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="FontFamily" Value="/Fonts/Inter-VariableFont_opsz,wght.ttf#Inter"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="ExtraLight"/>
-            <Setter Property="Foreground" Value="#000000"/>
-        </Style>
-
-        <Style x:Key="MainButton" TargetType="Button">
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-
-            <Setter Property="Margin" Value="0,20,0,0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
                 Background="{TemplateBinding Background}"
                 BorderThickness="1"
-                CornerRadius="20">
+                CornerRadius="15">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             Content="{TemplateBinding Content}"/>
@@ -156,128 +151,453 @@
             <Setter Property="Foreground" Value="#000000"/>
         </Style>
 
-        <Style x:Key="RoundComboBoxItemStyle" TargetType="ComboBoxItem">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="ExtraLight"/>
+        <!-- 🔹 Карточка дашборда -->
+        <!-- 🔹 Карточка дашборда (упрощённая, без анимации CornerRadius) -->
+        <Style x:Key="DashboardCard" TargetType="Button">
+            <Setter Property="Background" Value="#2a2a2a"/>
+            <Setter Property="BorderBrush" Value="#3a3a3a"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ComboBoxItem">
-                        <Border x:Name="Border"
-                    Background="{TemplateBinding Background}"
-                    Padding="{TemplateBinding Padding}"
-                    CornerRadius="0">
-                            <ContentPresenter/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="RoundedWhiteComboBox" TargetType="ComboBox">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="ExtraLight"/>
-            <Setter Property="ItemContainerStyle" Value="{StaticResource RoundComboBoxItemStyle}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <Border x:Name="Border"
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="cardBorder"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="15"
-                        SnapsToDevicePixels="True">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <!-- ToggleButton для открытия/закрытия (занимает всю область) -->
-                                    <ToggleButton x:Name="ToggleButton"
-                                Grid.ColumnSpan="2"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                ClickMode="Press"/>
-
-                                    <ContentControl x:Name="ContentControl"
-                                Grid.Column="0"
-                                Margin="{TemplateBinding Padding}"
-                                Content="{TemplateBinding SelectionBoxItem}"
-                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                IsTabStop="False"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                IsHitTestVisible="False"/>
-
-                                    <!-- Стрелка (только для отображения) -->
-                                    <Border x:Name="DropButton"
-                                Grid.Column="1"
-                                Width="36"
-                                Background="Transparent"
-                                IsHitTestVisible="False">
-                                        <Grid>
-                                            <Path x:Name="Arrow"
-                                        Fill="Black"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Data="M0,0 L8,0 L4,6.93 Z"
-                                        Width="12"
-                                        Height="10"
-                                        Stretch="Fill"
-                                        RenderTransformOrigin="0.5,0.5">
-                                                <Path.RenderTransform>
-                                                    <RotateTransform Angle="0"/>
-                                                </Path.RenderTransform>
-                                            </Path>
-                                        </Grid>
-                                    </Border>
-                                </Grid>
-                            </Border>
-
-                            <Popup x:Name="PART_Popup"
-                        AllowsTransparency="True"
-                        Placement="Bottom"
-                        IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                        PopupAnimation="Slide">
-                                <Border x:Name="DropDownBorder"
-                            Background="White"
-                            BorderBrush="#CCCCCC"
-                            BorderThickness="1"
-                            CornerRadius="20"
-                            Margin="0,4,0,0"
-                            MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <ScrollViewer>
-                                        <ItemsPresenter x:Name="ItemsPresenter"
-                                    KeyboardNavigation.DirectionalNavigation="Contained"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </ScrollViewer>
-                                </Border>
-                            </Popup>
-                        </Grid>
-
+                        CornerRadius="20">
+                            <ContentPresenter Margin="20,25"/>
+                        </Border>
                         <ControlTemplate.Triggers>
-                            <!-- Поворот стрелки при открытии -->
-                            <Trigger Property="IsDropDownOpen" Value="True">
-                                <Setter TargetName="Arrow" Property="RenderTransform">
-                                    <Setter.Value>
-                                        <RotateTransform Angle="180"/>
-                                    </Setter.Value>
-                                </Setter>
+                            <!-- Hover: просто меняем цвет рамки -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="cardBorder" Property="BorderBrush" Value="#8EED45"/>
+                                <Setter TargetName="cardBorder" Property="Background" Value="#303030"/>
+                            </Trigger>
+                            <!-- Click: эффект нажатия -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="cardBorder" Property="Background" Value="#252525"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- 🔹 Основная кнопка (градиент, как в вашем AuthButton) -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#1a1a1a"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#8EED45" Offset="0"/>
+                        <GradientStop Color="#24E3ED" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="0"
+                        CornerRadius="14">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#7AD435" Offset="0"/>
+                                            <GradientStop Color="#1BCBD9" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#6BB830"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 🔹 Кнопка-иконка (для выхода) -->
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Padding" Value="20,8"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#cccccc"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderBrush" Value="#444444"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#8EED45"/>
+                                <Setter Property="Foreground" Value="#ffffff"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#333333"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- 🔹 Кнопка действия (редактирование/удаление) -->
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Background" Value="#2e2e2e"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                        Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3a3a3a"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#444444"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- 🔹 Вторичная кнопка (Отмена) -->
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#cccccc"/>
+            <Setter Property="Background" Value="#2e2e2e"/>
+            <Setter Property="BorderBrush" Value="#444444"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#8EED45"/>
+                                <Setter Property="Foreground" Value="#ffffff"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3a3a3a"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- 🔹 Тёмный ComboBox (для формы) -->
+        <Style x:Key="DarkComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="4,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ToggleButton Grid.ColumnSpan="2"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  ClickMode="Press"/>
+
+                            <ContentPresenter Grid.Column="0"
+                                      Content="{TemplateBinding SelectionBoxItem}"
+                                      VerticalAlignment="Center"
+                                      IsHitTestVisible="False"/>
+
+                            <Path Grid.Column="1"
+                          Fill="#888888"
+                          Data="M0,0 L6,6 L12,0 Z"
+                          Width="10" Height="6"
+                          Margin="0,0,4,0"
+                          VerticalAlignment="Center"/>
+
+                            <Popup x:Name="PART_Popup"
+                           AllowsTransparency="True"
+                           Placement="Bottom"
+                           IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                           PopupAnimation="Slide">
+                                <Border Background="#2e2e2e"
+                                BorderBrush="#444444"
+                                BorderThickness="1"
+                                MinWidth="{TemplateBinding ActualWidth}">
+                                    <ScrollViewer MaxHeight="200">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#ffffff"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- 🔹 Стиль для ComboBoxItem в тёмной теме -->
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3a3a3a"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#8EED45"/>
+                                <Setter Property="Foreground" Value="#1a1a1a"/>
+                                <Setter Property="FontWeight" Value="Medium"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- 🔹 Компактный прозрачный TextBox -->
+        <Style x:Key="TransparentTextBoxCompact" TargetType="TextBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="CaretBrush" Value="#8EED45"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 🔹 Компактный тёмный ComboBox -->
+        <Style x:Key="DarkComboBoxCompact" TargetType="ComboBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Grid.ColumnSpan="2" Background="Transparent" BorderThickness="0"
+                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <ContentPresenter Grid.Column="0" Content="{TemplateBinding SelectionBoxItem}" 
+                                      VerticalAlignment="Center" IsHitTestVisible="False"/>
+                            <Path Grid.Column="1" Fill="#888888" Data="M0,0 L6,6 L12,0 Z" 
+                          Width="8" Height="5" Margin="0,0,2,0" VerticalAlignment="Center"/>
+                            <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom"
+                           IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Border Background="#2e2e2e" BorderBrush="#444444" BorderThickness="1" 
+                                MinWidth="{TemplateBinding ActualWidth}">
+                                    <ScrollViewer MaxHeight="180">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 🔹 Кнопка-иконка маленькая (удаление) -->
+        <Style x:Key="IconButtonSmall" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3a3a3a"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#444444"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 🔹 Кнопки +/- для спиннера -->
+        <Style x:Key="SpinButton" TargetType="RepeatButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#888888"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border x:Name="border" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#8EED45"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3a3a3a"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- 🔹 Основная кнопка диалога (подтверждение) -->
+        <Style x:Key="DialogButton" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#8EED45" Offset="0"/>
+                        <GradientStop Color="#24E3ED" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#1a1a1a"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#7AD435" Offset="0"/>
+                                            <GradientStop Color="#1BCBD9" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#6BB830"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 🔹 Вторичная кнопка диалога (отмена) -->
+        <Style x:Key="DialogButtonSecondary" TargetType="Button">
+            <Setter Property="Background" Value="#2e2e2e"/>
+            <Setter Property="Foreground" Value="#cccccc"/>
+            <Setter Property="FontFamily" Value="\Fonts\Inter-VariableFont_opsz,wght.ttf"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderBrush" Value="#444444"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#8EED45"/>
+                                <Setter Property="Foreground" Value="#ffffff"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3a3a3a"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 🔹 Тень для модальных окон -->
     </Application.Resources>
 </Application>

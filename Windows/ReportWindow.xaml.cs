@@ -23,5 +23,15 @@ namespace Resonate.Windows
         {
             InitializeComponent();
         }
+
+        private void GenerateReport(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CancelReport(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
