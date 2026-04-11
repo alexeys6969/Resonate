@@ -63,6 +63,7 @@
     <Compile Include="Context\EmployeeContext.cs" />
     <Compile Include="Context\ProductContext.cs" />
     <Compile Include="Context\SaleContext.cs" />
+    <Compile Include="Context\SupplierContext.cs" />
     <Compile Include="Model\Auth.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Employees.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Model\SaleClasses\Sale.cs" />
     <Compile Include="Model\SaleClasses\SaleItem.cs" />
     <Compile Include="Model\SaleClasses\SaleRequests.cs" />
+    <Compile Include="Model\Supplier.cs" />
     <Compile Include="Windows\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
@@ -79,10 +81,6 @@
     <Compile Include="Windows\ReportWindow.xaml.cs">
       <DependentUpon>ReportWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Elements\TableItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -90,9 +88,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Elements\TableItem.xaml.cs">
-      <DependentUpon>TableItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -295,16 +290,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\category.png" />
-    <Resource Include="Images\delete.png" />
     <Resource Include="Images\employeesIcon.png" />
     <Resource Include="Images\product.png" />
-    <Resource Include="Images\redact.png" />
     <Resource Include="Images\sales.png" />
     <Resource Include="Images\suppliers.png" />
     <Resource Include="Images\supply.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\deleteWhite.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />

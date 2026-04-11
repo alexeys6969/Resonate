@@ -21,7 +21,8 @@
             BorderBrush="#3a3a3a"
             BorderThickness="1,1,1,1"
             Padding="25,20"
-            Cursor="Hand">
+            Cursor="Hand"
+            CornerRadius="20">
 
         <Border.Style>
             <Style TargetType="Border">

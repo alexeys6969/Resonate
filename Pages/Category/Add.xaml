@@ -152,7 +152,7 @@
                                  VerticalAlignment="Stretch"
                                  TextWrapping="Wrap"
                                  AcceptsReturn="True"
-                                 VerticalScrollBarVisibility="Auto"
+                                 VerticalScrollBarVisibility="Hidden"
                                  GotFocus="Input_GotFocus"
                                  LostFocus="Input_LostFocus"/>
                     </Border>

@@ -165,11 +165,11 @@ namespace Resonate.Pages.Sales.Elements
                             info.Show();
 
                             // Перезагрузка списка
-                            // MainWindow.init.frame.Navigate(new Pages.Sales.Main());
+                            MainWindow.init.frame.Navigate(new Pages.Sales.Main());
                         }
                         else
                         {
-                            var info = new InfoWindow($"Не удалось удалить продажу");
+                            var info = new InfoWindow($"Не удалось удалить продажу.");
                             info.Show();
 
                             var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200));

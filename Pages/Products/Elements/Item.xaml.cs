@@ -168,7 +168,7 @@ namespace Resonate.Pages.Products.Elements
                         }
                         else
                         {
-                            var info = new InfoWindow($"При удалении товара \"{product?.Name}\" возникла ошибка");
+                            var info = new InfoWindow($"При удалении товара \"{product?.Name}\" возникла ошибка. Возможно он участвует в поставке или продаже.");
                             info.Show();
 
                             // Возвращаем видимость при ошибке

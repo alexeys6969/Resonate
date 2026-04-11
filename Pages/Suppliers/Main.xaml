@@ -5,10 +5,75 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Resonate.Pages.Suppliers"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Main" Background="#292929">
+      d:DesignHeight="900" d:DesignWidth="1400"
+      Title="Поставщики" Background="#1a1a1a">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="92*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
 
+        <!-- Фон и декор -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1a1a1a" Offset="0"/>
+                <GradientStop Color="#1f1f1f" Offset="0.5"/>
+                <GradientStop Color="#1a1a1a" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Ellipse Width="600" Height="600" Fill="#8EED45" Opacity="0.03" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-200,-200,0,0"/>
+        <Ellipse Width="500" Height="500" Fill="#24E3ED" Opacity="0.04" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-150,-150"/>
+
+        <!-- Верхняя панель -->
+        <Border Grid.Column="1" VerticalAlignment="Top" Background="#252525" BorderBrush="#3a3a3a" BorderThickness="0,0,0,1" Effect="{StaticResource CardShadow}">
+            <Grid Margin="30,20,30,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="SystemUser" Grid.Column="0" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="14" FontWeight="Light" Foreground="#cccccc" VerticalAlignment="Center" TextDecorations="Underline" Cursor="Hand"/>
+                <TextBlock Grid.Column="1" Text="Resonate" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="28" FontWeight="Bold" VerticalAlignment="Center">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#8EED45" Offset="0"/>
+                            <GradientStop Color="#24E3ED" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <Button Grid.Column="2" Click="Exit" Content="Выйти" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Width="120"/>
+            </Grid>
+        </Border>
+
+        <!-- Заголовок + Поиск -->
+        <StackPanel Grid.Column="1" Margin="0,100,0,20">
+            <Grid Margin="30,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Поставщики" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="24" FontWeight="SemiBold" Foreground="#ffffff" VerticalAlignment="Center"/>
+                <Border Grid.Column="1" Background="#2e2e2e" BorderBrush="#444444" BorderThickness="1" Padding="12,8" Width="280" CornerRadius="20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="SearchBox" Style="{StaticResource TransparentTextBox}" Tag="Поиск поставщика..." TextChanged="SearchBox_TextChanged"/>
+                        <TextBlock Grid.Column="1" Text="🔍" FontSize="16" Foreground="#888888" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </StackPanel>
+
+        <!-- Список -->
+        <ScrollViewer Grid.Column="1" Margin="0,160,0,90" VerticalScrollBarVisibility="Hidden">
+            <StackPanel x:Name="SupplierParent" Margin="30,0"/>
+        </ScrollViewer>
+
+        <!-- Кнопка добавления -->
+        <Button Grid.Column="1" Click="Add" Content="＋ Добавить поставщика" Style="{StaticResource PrimaryButton}" VerticalAlignment="Bottom" Margin="0,0,0,25" Width="280" HorizontalAlignment="Right"/>
     </Grid>
 </Page>

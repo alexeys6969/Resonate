@@ -93,7 +93,7 @@
                 Padding="40,35"
                 Effect="{StaticResource CardShadow}">
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel MaxWidth="650" HorizontalAlignment="Center">
 
                     <!-- Заголовок формы -->

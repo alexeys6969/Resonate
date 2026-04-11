@@ -5,10 +5,76 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Resonate.Pages.Suppliers"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Add" Background="#292929">
+      d:DesignHeight="900" d:DesignWidth="1400"
+      Title="Поставщик" Background="#1a1a1a">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="92*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
 
+        <!-- Фон и декор (как в других страницах) -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1a1a1a" Offset="0"/>
+                <GradientStop Color="#1f1f1f" Offset="0.5"/>
+                <GradientStop Color="#1a1a1a" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Ellipse Width="600" Height="600" Fill="#8EED45" Opacity="0.03" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-200,-200,0,0"/>
+        <Ellipse Width="500" Height="500" Fill="#24E3ED" Opacity="0.04" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-150,-150"/>
+
+        <!-- Верхняя панель -->
+        <Border Grid.Column="1" VerticalAlignment="Top" Background="#252525" BorderBrush="#3a3a3a" BorderThickness="0,0,0,1" Effect="{StaticResource CardShadow}">
+            <Grid Margin="30,20,30,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="SystemUser" Grid.Column="0" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="14" FontWeight="Light" Foreground="#cccccc" VerticalAlignment="Center" TextDecorations="Underline" Cursor="Hand"/>
+                <TextBlock Grid.Column="1" Text="Resonate" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="28" FontWeight="Bold" VerticalAlignment="Center">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#8EED45" Offset="0"/>
+                            <GradientStop Color="#24E3ED" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                </TextBlock>
+                <Button Grid.Column="2" Click="Exit" Content="Выйти" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Width="120"/>
+            </Grid>
+        </Border>
+
+        <!-- Карточка формы -->
+        <Border Grid.Column="1" VerticalAlignment="Center" Background="#252525" BorderBrush="#3a3a3a" BorderThickness="1" Padding="40,35" Effect="{StaticResource CardShadow}">
+            <StackPanel MaxWidth="600" HorizontalAlignment="Center">
+                <TextBlock x:Name="FormTitle" Text="Новый поставщик" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="24" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,0,30" HorizontalAlignment="Center"/>
+
+                <!-- Название -->
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="Название *" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="14" FontWeight="Medium" Foreground="#cccccc" Margin="0,0,0,10"/>
+                    <Border CornerRadius="20" x:Name="NameBorder" Background="#2e2e2e" BorderBrush="#444444" BorderThickness="1.5" Padding="16,12">
+                        <TextBox x:Name="Name" Style="{StaticResource TransparentTextBox}" Tag="Например: MusicPro Distribution" GotFocus="Input_GotFocus" LostFocus="Input_LostFocus"/>
+                    </Border>
+                    <TextBlock x:Name="NameError" Text="" FontSize="12" Foreground="#ff5252" Margin="0,6,0,0" Visibility="Collapsed"/>
+                </StackPanel>
+
+                <!-- Контакты -->
+                <StackPanel Margin="0,0,0,35">
+                    <TextBlock Text="Контактная информация" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="14" FontWeight="Medium" Foreground="#cccccc" Margin="0,0,0,10"/>
+                    <Border CornerRadius="20" x:Name="ContactBorder" Background="#2e2e2e" BorderBrush="#444444" BorderThickness="1.5" Padding="16,12">
+                        <TextBox x:Name="ContactInfo" Style="{StaticResource TransparentTextBox}" Tag="тел, email, адрес" Height="120" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Hidden" GotFocus="Input_GotFocus" LostFocus="Input_LostFocus"/>
+                    </Border>
+                </StackPanel>
+
+                <!-- Кнопки -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="AddEdit" Click="EditInfo" Style="{StaticResource PrimaryButton}" Content="Сохранить" Width="200" Margin="0,0,15,0"/>
+                    <Button Content="Отмена" Click="Exit" Style="{StaticResource SecondaryButton}" Width="130"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

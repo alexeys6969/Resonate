@@ -103,7 +103,7 @@ namespace Resonate.Context
                     content.Add(new StringContent(product.Name ?? ""), "Name");
                     content.Add(new StringContent(product.Description ?? ""), "Description");
                     content.Add(new StringContent(product.Article ?? ""), "Article");
-                    content.Add(new StringContent(product.Category.Name ?? ""), "Category");
+                    content.Add(new StringContent(product.Category_Id.ToString()), "Category_Id");
                     content.Add(new StringContent(product.Price.ToString()), "Price");
                     content.Add(new StringContent(product.Stock_Quantity.ToString()), "Stock");
 
@@ -124,7 +124,7 @@ namespace Resonate.Context
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, url + "DELETEProduct"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, url + "DELETEProducts"))
                 {
                     Dictionary<string, string> FormData = new Dictionary<string, string>
                     {

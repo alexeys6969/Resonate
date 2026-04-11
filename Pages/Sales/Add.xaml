@@ -94,7 +94,7 @@
                 Margin="0,100,0,100"
                 Effect="{StaticResource CardShadow}">
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel MaxWidth="700" HorizontalAlignment="Center">
 
                     <!-- Заголовок формы -->

@@ -175,8 +175,8 @@ namespace Resonate.Pages.Products
 
             try
             {
-                var selectedCategory = Category.SelectedValue as Model.Category;
-                int categoryId = selectedCategory?.Id ?? ((Category.SelectedItem is Model.Category c) ? c.Id : 0);
+                var selectedCategory = Category.SelectedItem as Model.Category;
+                int categoryId = selectedCategory?.Id ?? 0;
 
                 if (product != null)
                 {
@@ -346,7 +346,7 @@ namespace Resonate.Pages.Products
                     Article.Text = prod.Article;
                     Name.Text = prod.Name;
                     Description.Text = prod.Description;
-                    Category.SelectedValue = prod.Category_Id;
+                    Category.SelectedValue = prod.Category.Name;
                     Price.Text = prod.Price.ToString("0.00");
                     Stock.Text = prod.Stock_Quantity.ToString();
 

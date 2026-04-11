@@ -1,14 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using Resonate.Model.SaleClasses;
 using Resonate.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
+using Resonate.Model.SaleClasses;
 
 namespace Resonate.Context
 {
@@ -30,8 +29,6 @@ namespace Resonate.Context
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         string jsonResponse = await response.Content.ReadAsStringAsync();
-
-                        // Парсим сложный ответ с вложенными товарами
                         var salesData = JArray.Parse(jsonResponse);
                         var sales = new List<Sale>();
 
@@ -39,33 +36,37 @@ namespace Resonate.Context
                         {
                             var sale = new Sale
                             {
-                                Id = (int)(saleJson["Id"] ?? saleJson["id"] ?? 0),
-                                Code = (string)(saleJson["Code"] ?? saleJson["code"] ?? ""),
-                                Employee_id = (int)(saleJson["Employee_id"] ?? saleJson["employee_id"] ?? 0),
-                                Sale_Date = DateTime.Parse((string)(saleJson["Sale_Date"] ?? saleJson["sale_date"] ?? DateTime.Now.ToString())),
-                                Total_Amount = (decimal)(saleJson["Total_Amount"] ?? saleJson["total_amount"] ?? 0),
+                                Id = GetIntValue(saleJson, "id"),
+                                Code = GetStringValue(saleJson, "code"),
+                                Employee_id = GetIntValue(saleJson, "employee_id"),
+                                Sale_Date = GetDateTimeValue(saleJson, "sale_Date"),
+                                Total_Amount = GetDecimalValue(saleJson, "total_Amount"),
                                 Employee = new Employees
                                 {
-                                    Full_Name = (string)(saleJson["Employee_Name"] ?? ""),
-                                    Position = (string)(saleJson["Employee_Position"] ?? "")
+                                    Full_Name = GetStringValue(saleJson, "employee_Name"),
+                                    Position = GetStringValue(saleJson, "employee_Position")
                                 },
                                 Sale_Items = new List<SaleItem>()
                             };
 
-                            // Парсим товары продажи
-                            if (saleJson["Items"] != null)
+                            // Парсим товары (API возвращает "items" с маленькой буквы)
+                            var itemsJson = saleJson["items"] ?? saleJson["Items"];
+                            if (itemsJson != null)
                             {
-                                foreach (var itemJson in saleJson["Items"])
+                                foreach (var itemJson in itemsJson)
                                 {
                                     sale.Sale_Items.Add(new SaleItem
                                     {
-                                        Id = (int)(itemJson["Id"] ?? itemJson["id"] ?? 0),
-                                        Product_id = (int)(itemJson["Product_id"] ?? itemJson["product_id"] ?? 0),
-                                        Quantity = (int)(itemJson["Quantity"] ?? itemJson["quantity"] ?? 0),
-                                        Price_At_Sale = (decimal)(itemJson["Price_At_Sale"] ?? itemJson["price_at_sale"] ?? 0),
+                                        Id = GetIntValue(itemJson, "id"),
+                                        Product_id = GetIntValue(itemJson, "product_id"),
+                                        Quantity = GetIntValue(itemJson, "quantity"),
+
+                                        // 🔹 ИСПРАВЛЕНО: точное имя поля из API
+                                        Price_At_Sale = GetDecimalValue(itemJson, "price_At_Sale"),
+
                                         Product = new Product
                                         {
-                                            Name = (string)(itemJson["Name"] ?? itemJson["name"] ?? "")
+                                            Name = GetStringValue(itemJson, "name")
                                         }
                                     });
                                 }
@@ -99,33 +100,37 @@ namespace Resonate.Context
 
                         var sale = new Sale
                         {
-                            Id = (int)(saleJson["Id"] ?? saleJson["id"] ?? 0),
-                            Code = (string)(saleJson["Code"] ?? saleJson["code"] ?? ""),
-                            Employee_id = (int)(saleJson["Employee_id"] ?? saleJson["employee_id"] ?? 0),
-                            Sale_Date = DateTime.Parse((string)(saleJson["Sale_Date"] ?? saleJson["sale_date"] ?? DateTime.Now.ToString())),
-                            Total_Amount = (decimal)(saleJson["Total_Amount"] ?? saleJson["total_amount"] ?? 0),
+                            Id = GetIntValue(saleJson, "id"),
+                            Code = GetStringValue(saleJson, "code"),
+                            Employee_id = GetIntValue(saleJson, "employee_id"),
+                            Sale_Date = GetDateTimeValue(saleJson, "sale_Date"),
+                            Total_Amount = GetDecimalValue(saleJson, "total_Amount"),
                             Employee = new Employees
                             {
-                                Full_Name = (string)(saleJson["Employee_Name"] ?? ""),
-                                Position = (string)(saleJson["Employee_Position"] ?? "")
+                                Full_Name = GetStringValue(saleJson, "employee_Name"),
+                                Position = GetStringValue(saleJson, "employee_Position")
                             },
                             Sale_Items = new List<SaleItem>()
                         };
 
                         // Парсим товары
-                        if (saleJson["Items"] != null)
+                        var itemsJson = saleJson["items"] ?? saleJson["Items"];
+                        if (itemsJson != null)
                         {
-                            foreach (var itemJson in saleJson["Items"])
+                            foreach (var itemJson in itemsJson)
                             {
                                 sale.Sale_Items.Add(new SaleItem
                                 {
-                                    Id = (int)(itemJson["Id"] ?? itemJson["id"] ?? 0),
-                                    Product_id = (int)(itemJson["Product_id"] ?? itemJson["product_id"] ?? 0),
-                                    Quantity = (int)(itemJson["Quantity"] ?? itemJson["quantity"] ?? 0),
-                                    Price_At_Sale = (decimal)(itemJson["Price_At_Sale"] ?? itemJson["price_at_sale"] ?? 0),
+                                    Id = GetIntValue(itemJson, "id"),
+                                    Product_id = GetIntValue(itemJson, "product_id"),
+                                    Quantity = GetIntValue(itemJson, "quantity"),
+
+                                    // 🔹 ИСПРАВЛЕНО: точное имя поля из API
+                                    Price_At_Sale = GetDecimalValue(itemJson, "price_At_Sale"),
+
                                     Product = new Product
                                     {
-                                        Name = (string)(itemJson["Name"] ?? itemJson["name"] ?? "")
+                                        Name = GetStringValue(itemJson, "name")
                                     }
                                 });
                             }
@@ -145,32 +150,29 @@ namespace Resonate.Context
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request_msg = new HttpRequestMessage(HttpMethod.Post, url + "POSTSale"))
+                using (HttpRequestMessage requestMsg = new HttpRequestMessage(HttpMethod.Post, url + "POSTSale"))
                 {
-                    // Сериализуем в JSON
                     string json = JsonConvert.SerializeObject(request);
-                    request_msg.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                    requestMsg.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    var response = await client.SendAsync(request_msg);
+                    var response = await client.SendAsync(requestMsg);
                     string jsonResponse = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
                         var responseData = JObject.Parse(jsonResponse);
-
-                        // Ответ приходит в формате { "sale": {...} }
                         var saleJson = responseData["sale"] ?? responseData;
 
                         return new Sale
                         {
-                            Id = (int)(saleJson["Id"] ?? saleJson["id"] ?? 0),
-                            Code = (string)(saleJson["Code"] ?? saleJson["code"] ?? ""),
-                            Sale_Date = DateTime.Parse((string)(saleJson["Sale_Date"] ?? saleJson["sale_date"] ?? DateTime.Now.ToString())),
-                            Total_Amount = (decimal)(saleJson["Total_Amount"] ?? saleJson["total_amount"] ?? 0),
+                            Id = GetIntValue(saleJson, "id"),
+                            Code = GetStringValue(saleJson, "code"),
+                            Sale_Date = GetDateTimeValue(saleJson, "sale_Date"),
+                            Total_Amount = GetDecimalValue(saleJson, "total_Amount"),
                             Employee = new Employees
                             {
-                                Id = (int)(saleJson["Employee"]?["Id"] ?? saleJson["Employee"]?["id"] ?? 0),
-                                Full_Name = (string)(saleJson["Employee"]?["Full_Name"] ?? saleJson["Employee"]?["full_name"] ?? "")
+                                Id = GetIntValue(saleJson["employee"], "id"),
+                                Full_Name = GetStringValue(saleJson["employee"], "full_Name")
                             },
                             Sale_Items = new List<SaleItem>()
                         };
@@ -190,13 +192,12 @@ namespace Resonate.Context
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request_msg = new HttpRequestMessage(HttpMethod.Put, url + $"PUTSale?id={id}"))
+                using (HttpRequestMessage requestMsg = new HttpRequestMessage(HttpMethod.Put, url + $"PUTSale?id={id}"))
                 {
                     string json = JsonConvert.SerializeObject(request);
-                    request_msg.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                    requestMsg.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    var response = await client.SendAsync(request_msg);
-
+                    var response = await client.SendAsync(requestMsg);
                     return response.IsSuccessStatusCode;
                 }
             }
@@ -215,6 +216,64 @@ namespace Resonate.Context
                     return response.IsSuccessStatusCode;
                 }
             }
+        }
+
+        // 🔹 Вспомогательные методы для парсинга с учётом регистра API
+        private static int GetIntValue(JToken token, string propertyName)
+        {
+            if (token == null) return 0;
+
+            // Пробуем найти свойство с разным регистром
+            var value = token[propertyName] ??
+                        token[propertyName.ToLower()] ??
+                        token[propertyName.ToUpper()] ??
+                        token.SelectToken(propertyName, true);
+
+            return value?.Value<int>() ?? 0;
+        }
+
+        private static string GetStringValue(JToken token, string propertyName)
+        {
+            if (token == null) return string.Empty;
+
+            var value = token[propertyName] ??
+                        token[propertyName.ToLower()] ??
+                        token[propertyName.ToUpper()];
+
+            return value?.Value<string>() ?? string.Empty;
+        }
+
+        private static decimal GetDecimalValue(JToken token, string propertyName)
+        {
+            if (token == null) return 0;
+
+            // 🔹 Для цены: проверяем все варианты, включая точный из вашего API
+            var value = token[propertyName] ??                          // Price_At_Sale
+                        token[propertyName.ToLower()] ??                // price_at_sale
+                        token[char.ToLower(propertyName[0]) + propertyName.Substring(1)] ?? // price_At_Sale ← ВАШ ФОРМАТ!
+                        token["price_At_Sale"] ??                       // явное указание
+                        token["price_at_sale"] ??
+                        token["price"] ??
+                        token["Price"];
+
+            return value?.Value<decimal>() ?? 0;
+        }
+
+        private static DateTime GetDateTimeValue(JToken token, string propertyName)
+        {
+            if (token == null) return DateTime.Now;
+
+            var value = token[propertyName] ??
+                        token[propertyName.ToLower()] ??
+                        token[propertyName.ToUpper()];
+
+            if (value != null && value.Type == JTokenType.String)
+            {
+                if (DateTime.TryParse(value.ToString(), out var result))
+                    return result;
+            }
+
+            return value?.Value<DateTime>() ?? DateTime.Now;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using Resonate.Context;
-using Resonate.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace Resonate.Pages
     /// </summary>
     public partial class Main : Page
     {
-        private readonly SolidColorBrush _accentBrush = new SolidColorBrush(Color.FromRgb(142, 237, 69));   // #8EED45
+        private readonly SolidColorBrush _accentBrush = new SolidColorBrush(Color.FromRgb(142, 237, 69));
         private readonly SolidColorBrush _accentAltBrush = new SolidColorBrush(Color.FromRgb(36, 227, 237));
         public Main()
         {
