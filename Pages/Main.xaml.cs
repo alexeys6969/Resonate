@@ -142,7 +142,7 @@ namespace Resonate.Pages
                     SaleBtn.Visibility = Visibility.Collapsed;
                     break;
 
-                    // Для остальных ролей (Администратор и т.д.) все кнопки доступны по умолчанию
+                    // Для администратора все кнопки доступны по умолчанию
             }
         }
 
