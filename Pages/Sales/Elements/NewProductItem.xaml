@@ -123,7 +123,8 @@
                              Text="1"
                              TextAlignment="Right"
                              PreviewTextInput="Quantity_PreviewTextInput"
-                             TextChanged="Quantity_TextChanged"/>
+                             TextChanged="Quantity_TextChanged"
+                             VerticalContentAlignment="Center"/>
 
                     <!-- Кнопки +/- для быстрого изменения -->
                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="6,0,0,0">

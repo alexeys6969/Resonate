@@ -4,6 +4,152 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Resonate.Pages.Supply.Elements"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             Margin="0,15,0,0"
+             MinHeight="140">
 
+    <UserControl.Resources>
+        <!-- Анимация появления -->
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                           From="0" To="1" Duration="0:0:0.3"/>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Border x:Name="RootBorder"
+            Background="#2a2a2a" 
+            BorderBrush="#3a3a3a"
+            BorderThickness="1"
+            Padding="25,20"
+            Cursor="Hand">
+
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Effect" Value="{x:Null}"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="#8EED45"/>
+                        <Setter Property="Background" Value="#2e2e2e"/>
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect Color="#8EED45" 
+                                                BlurRadius="20" 
+                                                ShadowDepth="0" 
+                                                Opacity="0.3"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 🔹 Верхняя строка: Код + Дата | Сумма | Кнопки -->
+            <Grid Grid.Row="0" Margin="0,0,0,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Код и дата -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock x:Name="SupplyCode" 
+                               FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                               FontSize="16" FontWeight="SemiBold"
+                               Foreground="#24E3ED"
+                               TextWrapping="Wrap"/>
+                    <TextBlock x:Name="SupplyDate" 
+                               FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                               FontSize="13" FontWeight="Light"
+                               Foreground="#999999"
+                               TextWrapping="Wrap"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <!-- Сумма -->
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="Итого:" 
+                               FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                               FontSize="13" FontWeight="Light"
+                               Foreground="#aaaaaa"/>
+                    <TextBlock x:Name="TotalAmount" 
+                               FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                               FontSize="20" FontWeight="Bold"
+                               Foreground="#8EED45"
+                               TextWrapping="Wrap"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <!-- Кнопки действий -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="EditButton" Width="40" Height="40" Margin="0,0,8,0"
+                            Style="{StaticResource ActionButton}" Click="Edit" ToolTip="Редактировать">
+                        <Viewbox Width="18" Height="18">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="#8EED45" 
+                                      Data="M3,17.25V21H6.75L17.81,9.94L14.06,6.19L3,17.25M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04Z"/>
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button x:Name="DeleteButton" Width="40" Height="40"
+                            Style="{StaticResource ActionButton}" Click="Delete" ToolTip="Удалить">
+                        <Viewbox Width="18" Height="18">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="#ff5252" 
+                                      Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- 🔹 Разделитель -->
+            <Rectangle Grid.Row="1" Height="1" Fill="#3a3a3a" Margin="0,10"/>
+
+            <!-- 🔹 Список товаров -->
+            <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                <TextBlock Text="📦 Товары в поставке:" 
+                           FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                           FontSize="14" FontWeight="Medium"
+                           Foreground="#cccccc"
+                           Margin="0,0,0,12"/>
+
+                <ItemsControl x:Name="ProductsList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#252525" 
+                                    Padding="12,10" 
+                                    Margin="0,0,0,8"
+                                    BorderBrush="#3a3a3a" 
+                                    BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Name}" 
+                                               FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                               FontSize="13" FontWeight="Light"
+                                               Foreground="#ffffff" 
+                                               TextWrapping="Wrap"/>
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding LineTotal, StringFormat='{}{0:N2} ₽'}" 
+                                               FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                                               FontSize="13" FontWeight="Medium"
+                                               Foreground="#8EED45"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>
