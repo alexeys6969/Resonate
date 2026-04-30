@@ -16,5 +16,10 @@ namespace Resonate.Model
         public virtual Category Category { get; set; }
         public decimal Price { get; set; }
         public int Stock_Quantity { get; set; }
+
+        public override string ToString()
+        {
+            return string.IsNullOrWhiteSpace(Name) ? $"Товар #{Id}" : Name;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Resonate.Pages.Supply.Elements.Item"
+<UserControl x:Class="Resonate.Pages.Supply.Elements.Item"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +9,6 @@
              MinHeight="140">
 
     <UserControl.Resources>
-        <!-- Анимация появления -->
         <Storyboard x:Key="FadeIn">
             <DoubleAnimation Storyboard.TargetProperty="Opacity" 
                            From="0" To="1" Duration="0:0:0.3"/>
@@ -50,7 +49,6 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- 🔹 Верхняя строка: Код + Дата | Сумма | Кнопки -->
             <Grid Grid.Row="0" Margin="0,0,0,15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2.5*"/>
@@ -58,7 +56,6 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Код и дата -->
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
                     <TextBlock x:Name="SupplyCode" 
                                FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
@@ -71,9 +68,14 @@
                                Foreground="#999999"
                                TextWrapping="Wrap"
                                Margin="0,4,0,0"/>
+                    <TextBlock x:Name="SupplierName"
+                               FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
+                               FontSize="13" FontWeight="Light"
+                               Foreground="#bbbbbb"
+                               TextWrapping="Wrap"
+                               Margin="0,4,0,0"/>
                 </StackPanel>
 
-                <!-- Сумма -->
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock Text="Итого:" 
                                FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
@@ -87,7 +89,6 @@
                                Margin="0,4,0,0"/>
                 </StackPanel>
 
-                <!-- Кнопки действий -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button x:Name="EditButton" Width="40" Height="40" Margin="0,0,8,0"
                             Style="{StaticResource ActionButton}" Click="Edit" ToolTip="Редактировать">
@@ -110,10 +111,8 @@
                 </StackPanel>
             </Grid>
 
-            <!-- 🔹 Разделитель -->
             <Rectangle Grid.Row="1" Height="1" Fill="#3a3a3a" Margin="0,10"/>
 
-            <!-- 🔹 Список товаров -->
             <StackPanel Grid.Row="2" Margin="0,10,0,0">
                 <TextBlock Text="📦 Товары в поставке:" 
                            FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"

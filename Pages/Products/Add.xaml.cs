@@ -2,6 +2,7 @@
 using Resonate.Windows;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -343,12 +344,23 @@ namespace Resonate.Pages.Products
 
                 if (prod != null)
                 {
-                    Article.Text = prod.Article;
-                    Name.Text = prod.Name;
-                    Description.Text = prod.Description;
-                    Category.SelectedValue = prod.Category.Name;
-                    Price.Text = prod.Price.ToString("0.00");
-                    Stock.Text = prod.Stock_Quantity.ToString();
+                    var fullProduct = await ProductContext.GetProductById(prod.Id) ?? prod;
+
+                    Article.Text = fullProduct.Article;
+                    Name.Text = fullProduct.Name;
+                    Description.Text = fullProduct.Description;
+
+                    int categoryId = fullProduct.Category_Id;
+                    if (categoryId <= 0 && fullProduct.Category != null)
+                        categoryId = fullProduct.Category.Id;
+
+                    if (categoryId > 0)
+                        Category.SelectedValue = categoryId;
+                    else
+                        Category.SelectedItem = null;
+
+                    Price.Text = fullProduct.Price.ToString("0.00", CultureInfo.InvariantCulture);
+                    Stock.Text = fullProduct.Stock_Quantity.ToString();
 
                     AddEdit.Content = "💾 Сохранить изменения";
                     FormTitle.Text = "Редактирование товара";

@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Resonate.Model;
-using Resonate.Model.SaleClasses;
+using Resonate.Model.SupplyClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,48 +10,48 @@ using System.Threading.Tasks;
 
 namespace Resonate.Context
 {
-    public class SaleContext
+    public class SupplyContext
     {
         private static readonly string url = @"https://localhost:7133/";
 
-        public static async Task<List<Sale>> GetSales()
+        public static async Task<List<Supply>> GetSupplies()
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, BuildUrl("GETSales")))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, BuildUrl("GETSupplies")))
                 {
                     var response = await client.SendAsync(request);
                     if (!response.IsSuccessStatusCode)
-                        return new List<Sale>();
+                        return new List<Supply>();
 
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-                    var salesData = JArray.Parse(jsonResponse);
-                    return salesData.Select(ParseSale).Where(x => x != null).ToList();
+                    var suppliesData = JArray.Parse(jsonResponse);
+                    return suppliesData.Select(ParseSupply).Where(x => x != null).ToList();
                 }
             }
         }
 
-        public static async Task<Sale> GetSaleById(int id)
+        public static async Task<Supply> GetSupplyById(int id)
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, BuildUrl("GETSaleById", "id=" + id)))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, BuildUrl("GETSupplyById", "id=" + id)))
                 {
                     var response = await client.SendAsync(request);
                     if (!response.IsSuccessStatusCode)
                         return null;
 
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-                    return ParseSale(JObject.Parse(jsonResponse));
+                    return ParseSupply(JObject.Parse(jsonResponse));
                 }
             }
         }
 
-        public static async Task<Sale> CreateSale(CreateSaleRequest request)
+        public static async Task<Supply> CreateSupply(CreateSupplyRequest request)
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, BuildUrl("POSTSale")))
+                using (HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, BuildUrl("POSTSupply")))
                 {
                     string json = JsonConvert.SerializeObject(request);
                     requestMessage.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
@@ -60,19 +60,19 @@ namespace Resonate.Context
                     string jsonResponse = await response.Content.ReadAsStringAsync();
 
                     if (!response.IsSuccessStatusCode)
-                        throw new Exception("Ошибка при создании продажи: " + jsonResponse);
+                        throw new Exception("Ошибка при создании поставки: " + jsonResponse);
 
                     var responseData = JObject.Parse(jsonResponse);
-                    return ParseSale(responseData["sale"] ?? responseData);
+                    return ParseSupply(responseData["supply"] ?? responseData);
                 }
             }
         }
 
-        public static async Task<bool> UpdateSale(int id, UpdateSaleFullRequest request)
+        public static async Task<bool> UpdateSupply(int id, UpdateSupplyFullRequest request)
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Put, BuildUrl("PUTSale", "id=" + id)))
+                using (HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Put, BuildUrl("PUTSupply", "id=" + id)))
                 {
                     string json = JsonConvert.SerializeObject(request);
                     requestMessage.Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
@@ -83,11 +83,11 @@ namespace Resonate.Context
             }
         }
 
-        public static async Task<bool> DeleteSale(int id)
+        public static async Task<bool> DeleteSupply(int id)
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, BuildUrl("DELETESale", "id=" + id)))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, BuildUrl("DELETESupply", "id=" + id)))
                 {
                     var response = await client.SendAsync(request);
                     return response.IsSuccessStatusCode;
@@ -104,54 +104,49 @@ namespace Resonate.Context
             return url + endpoint + "?token=" + token + "&" + query;
         }
 
-        private static Sale ParseSale(JToken saleJson)
+        private static Supply ParseSupply(JToken supplyJson)
         {
-            if (saleJson == null)
+            if (supplyJson == null)
                 return null;
 
-            JToken employeeToken = FindProperty(saleJson, "employee", "Employee");
-            int employeeId = GetIntValue(saleJson, "employee_id", "Employee_id");
-            if (employeeId == 0)
-                employeeId = GetIntValue(employeeToken, "id", "Id");
+            JToken supplierToken = FindProperty(supplyJson, "supplier", "Supplier");
+            int supplierId = GetIntValue(supplyJson, "supplier_id", "Supplier_id");
+            if (supplierId == 0)
+                supplierId = GetIntValue(supplierToken, "id", "Id");
 
-            string employeeName = GetStringValue(saleJson, "employee_Name", "Employee_Name");
-            if (string.IsNullOrWhiteSpace(employeeName))
-                employeeName = GetStringValue(employeeToken, "full_Name", "Full_Name", "name", "Name");
+            string supplierName = GetStringValue(supplyJson, "supplier_Name", "Supplier_Name");
+            if (string.IsNullOrWhiteSpace(supplierName))
+                supplierName = GetStringValue(supplierToken, "name", "Name");
 
-            string employeePosition = GetStringValue(saleJson, "employee_Position", "Employee_Position");
-            if (string.IsNullOrWhiteSpace(employeePosition))
-                employeePosition = GetStringValue(employeeToken, "position", "Position");
-
-            var sale = new Sale
+            var supply = new Supply
             {
-                Id = GetIntValue(saleJson, "id", "Id"),
-                Code = GetStringValue(saleJson, "code", "Code"),
-                Employee_id = employeeId,
-                Sale_Date = GetDateTimeValue(saleJson, "sale_Date", "Sale_Date"),
-                Total_Amount = GetDecimalValue(saleJson, "total_Amount", "Total_Amount"),
-                Employee = new Employees
+                Id = GetIntValue(supplyJson, "id", "Id"),
+                Code = GetStringValue(supplyJson, "code", "Code"),
+                Supplier_id = supplierId,
+                Supply_Date = GetDateTimeValue(supplyJson, "supply_Date", "Supply_Date"),
+                Total_Amount = GetDecimalValue(supplyJson, "total_Amount", "Total_Amount"),
+                Supplier = new Supplier
                 {
-                    Id = employeeId,
-                    Full_Name = employeeName,
-                    Position = employeePosition
+                    Id = supplierId,
+                    Name = supplierName
                 },
-                Sale_Items = new List<SaleItem>()
+                Supply_Items = new List<SupplyItem>()
             };
 
-            if (string.IsNullOrWhiteSpace(sale.Code) && sale.Id > 0)
-                sale.Code = "SALE-" + sale.Id;
+            if (string.IsNullOrWhiteSpace(supply.Code) && supply.Id > 0)
+                supply.Code = "SUPP-" + supply.Id;
 
-            var itemsJson = FindProperty(saleJson, "items", "Items") as JArray;
+            var itemsJson = FindProperty(supplyJson, "items", "Items") as JArray;
             if (itemsJson != null)
             {
                 foreach (var itemJson in itemsJson)
                 {
-                    sale.Sale_Items.Add(new SaleItem
+                    supply.Supply_Items.Add(new SupplyItem
                     {
                         Id = GetIntValue(itemJson, "id", "Id"),
                         Product_id = GetIntValue(itemJson, "product_id", "Product_id"),
                         Quantity = GetIntValue(itemJson, "quantity", "Quantity"),
-                        Price_At_Sale = GetDecimalValue(itemJson, "price_At_Sale", "Price_At_Sale", "price_at_sale", "Price"),
+                        Purchase_Price = GetDecimalValue(itemJson, "purchase_Price", "Purchase_Price", "price", "Price"),
                         Product = new Product
                         {
                             Id = GetIntValue(itemJson, "product_id", "Product_id"),
@@ -161,7 +156,7 @@ namespace Resonate.Context
                 }
             }
 
-            return sale;
+            return supply;
         }
 
         private static JToken FindProperty(JToken token, params string[] propertyNames)

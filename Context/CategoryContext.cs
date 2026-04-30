@@ -13,6 +13,13 @@ namespace Resonate.Context
     public class CategoryContext
     {
         static string url = @"https://localhost:7133/";
+
+        private static string BuildUrl(string endpoint)
+        {
+            string token = Uri.EscapeDataString(MainWindow.Token ?? string.Empty);
+            return url + endpoint + "?token=" + token;
+        }
+
         public static async Task<List<Category>> GetCategories()
         {
             using (HttpClient Client = new HttpClient())
@@ -35,7 +42,7 @@ namespace Resonate.Context
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, url + "POSTCategory"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, BuildUrl("POSTCategory")))
                 {
                     Dictionary<string, string> FormData = new Dictionary<string, string>
                     {
@@ -71,7 +78,7 @@ namespace Resonate.Context
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url + "PUTCategory"))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, BuildUrl("PUTCategory")))
                 {
                     var content = new MultipartFormDataContent();
 
@@ -95,7 +102,7 @@ namespace Resonate.Context
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, url + "DELETECategory"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, BuildUrl("DELETECategory")))
                 {
                     Dictionary<string, string> FormData = new Dictionary<string, string>
                     {

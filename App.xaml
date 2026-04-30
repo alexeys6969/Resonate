@@ -351,6 +351,8 @@
 
                             <ContentPresenter Grid.Column="0"
                                       Content="{TemplateBinding SelectionBoxItem}"
+                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                      ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
                                       VerticalAlignment="Center"
                                       IsHitTestVisible="False"/>
 
@@ -452,8 +454,12 @@
                             </Grid.ColumnDefinitions>
                             <ToggleButton Grid.ColumnSpan="2" Background="Transparent" BorderThickness="0"
                                   IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                            <ContentPresenter Grid.Column="0" Content="{TemplateBinding SelectionBoxItem}" 
-                                      VerticalAlignment="Center" IsHitTestVisible="False"/>
+                            <ContentPresenter Grid.Column="0"
+                                      Content="{TemplateBinding SelectionBoxItem}"
+                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                      ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                      VerticalAlignment="Center"
+                                      IsHitTestVisible="False"/>
                             <Path Grid.Column="1" Fill="#888888" Data="M0,0 L6,6 L12,0 Z" 
                           Width="8" Height="5" Margin="0,0,2,0" VerticalAlignment="Center"/>
                             <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom"

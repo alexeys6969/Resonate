@@ -81,7 +81,7 @@
                 <!-- Кнопка выхода -->
                 <Button Grid.Column="2" 
                         Click="Exit"
-                        Content="Выйти"
+                        Content="Назад"
                         Style="{StaticResource IconButton}"
                         HorizontalAlignment="Right"
                         Width="120"/>

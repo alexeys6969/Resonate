@@ -1,5 +1,6 @@
-﻿using Resonate.Context;
+using Resonate.Context;
 using Resonate.Model;
+using Resonate.Model.SupplyClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using SupplyModel = Resonate.Model.SupplyClasses.Supply;
 
 namespace Resonate.Pages.Supply
 {
     public partial class Main : Page
     {
-        private List<Supply> _allSupplies = new();
-        private List<Supplier> _allSuppliers = new();
+        private List<SupplyModel> _allSupplies = new List<SupplyModel>();
+        private List<Supplier> _allSuppliers = new List<Supplier>();
 
         private readonly FontFamily _interFont = new FontFamily(
             new Uri("pack://application:,,,/Fonts/"),
@@ -31,12 +33,8 @@ namespace Resonate.Pages.Supply
             await LoadCurrentEmployee();
             await LoadSupplies();
             await LoadSuppliersForFilter();
-            AnimateListEntrance();
         }
 
-        /// <summary>
-        /// Анимация появления элементов списка
-        /// </summary>
         private void AnimateListEntrance()
         {
             if (SupplyParent?.Children == null)
@@ -64,36 +62,18 @@ namespace Resonate.Pages.Supply
                 child.BeginAnimation(OpacityProperty, fadeIn);
 
                 if (child.RenderTransform != null)
-                {
                     child.RenderTransform.BeginAnimation(TranslateTransform.XProperty, slideIn);
-                }
 
                 delay += 60;
             }
         }
 
-        /// <summary>
-        /// Загружает список всех поставок
-        /// </summary>
         public async Task LoadSupplies()
         {
             try
             {
-                SupplyParent.Children.Clear();
-                _allSupplies = await SupplyContext.GetSupplies() ?? new List<Supply>();
-
-                if (!_allSupplies.Any())
-                {
-                    ShowEmptyState();
-                    return;
-                }
-
-                foreach (var supply in _allSupplies.OrderByDescending(x => x.Supply_Date))
-                {
-                    var item = new Elements.Item();
-                    item.LoadData(supply);
-                    SupplyParent.Children.Add(item);
-                }
+                _allSupplies = await SupplyContext.GetSupplies() ?? new List<SupplyModel>();
+                RenderSupplies(_allSupplies.OrderByDescending(x => x.Supply_Date), true);
             }
             catch (Exception ex)
             {
@@ -102,9 +82,6 @@ namespace Resonate.Pages.Supply
             }
         }
 
-        /// <summary>
-        /// Загружает список поставщиков для фильтра
-        /// </summary>
         private async Task LoadSuppliersForFilter()
         {
             try
@@ -131,26 +108,17 @@ namespace Resonate.Pages.Supply
             }
         }
 
-        /// <summary>
-        /// Обработчик изменения текста в поле поиска
-        /// </summary>
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (SearchBox != null)
                 FilterSupplies();
         }
 
-        /// <summary>
-        /// Обработчик изменения выбранного поставщика в фильтре
-        /// </summary>
         private void SupplierFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FilterSupplies();
         }
 
-        /// <summary>
-        /// Фильтрует список поставок по поиску и выбранному поставщику
-        /// </summary>
         private void FilterSupplies()
         {
             if (SearchBox == null || SupplierFilter == null)
@@ -167,30 +135,40 @@ namespace Resonate.Pages.Supply
 
             var filtered = _allSupplies.Where(s =>
             {
-                // Поиск по коду или названию товара
                 bool matchesSearch = string.IsNullOrWhiteSpace(query) ||
                     s.Code?.ToLower().Contains(query) == true ||
+                    s.Supplier?.Name?.ToLower().Contains(query) == true ||
                     s.Supply_Items?.Any(i => i.Product?.Name?.ToLower().Contains(query) == true) == true;
 
-                // Фильтр по поставщику
                 bool matchesSupplier = !supplierId.HasValue || s.Supplier_id == supplierId.Value;
-
                 return matchesSearch && matchesSupplier;
             });
 
+            RenderSupplies(filtered.OrderByDescending(x => x.Supply_Date), true);
+        }
+
+        private void RenderSupplies(IEnumerable<SupplyModel> supplies, bool animate)
+        {
             SupplyParent.Children.Clear();
 
-            foreach (var supply in filtered.OrderByDescending(x => x.Supply_Date))
+            var renderedSupplies = supplies.ToList();
+            if (!renderedSupplies.Any())
+            {
+                ShowEmptyState();
+                return;
+            }
+
+            foreach (var supply in renderedSupplies)
             {
                 var item = new Elements.Item();
                 item.LoadData(supply);
                 SupplyParent.Children.Add(item);
             }
+
+            if (animate)
+                AnimateListEntrance();
         }
 
-        /// <summary>
-        /// Показывает заглушку, если поставок нет
-        /// </summary>
         private void ShowEmptyState()
         {
             var card = new Border
@@ -241,9 +219,6 @@ namespace Resonate.Pages.Supply
             SupplyParent.Children.Add(card);
         }
 
-        /// <summary>
-        /// Показывает сообщение об ошибке загрузки
-        /// </summary>
         private void ShowErrorState(string message)
         {
             var card = new Border
@@ -280,9 +255,6 @@ namespace Resonate.Pages.Supply
             SupplyParent.Children.Add(card);
         }
 
-        /// <summary>
-        /// Загружает данные текущего авторизованного сотрудника
-        /// </summary>
         public async Task LoadCurrentEmployee()
         {
             try
@@ -290,9 +262,7 @@ namespace Resonate.Pages.Supply
                 var employee = await EmployeeContext.GetCurrentEmployee(MainWindow.Token);
 
                 if (employee != null)
-                {
                     SystemUser.Text = $"Система: {employee.GetShortName(employee.Full_Name)}";
-                }
             }
             catch (Exception ex)
             {
@@ -300,17 +270,11 @@ namespace Resonate.Pages.Supply
             }
         }
 
-        /// <summary>
-        /// Переход на страницу создания новой поставки
-        /// </summary>
         private void Add(object sender, RoutedEventArgs e)
         {
             MainWindow.init.frame.Navigate(new Pages.Supply.Add());
         }
 
-        /// <summary>
-        /// Выход на главную страницу
-        /// </summary>
         private void Exit(object sender, RoutedEventArgs e)
         {
             MainWindow.init.frame.Navigate(new Pages.Main());

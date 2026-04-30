@@ -1,4 +1,4 @@
-﻿using Resonate.Model;
+using Resonate.Model;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -12,6 +12,10 @@ namespace Resonate.Pages.Supply.Elements
     {
         private Pages.Supply.Add add;
         private readonly Regex _intRegex = new Regex(@"^\d*$", RegexOptions.Compiled);
+        private bool _isApplyingState;
+        private int _itemId;
+        private decimal _purchasePrice;
+
         public event EventHandler<ItemChangedEventArgs> ItemChanged;
 
         public NewProductItem(Pages.Supply.Add add)
@@ -29,24 +33,64 @@ namespace Resonate.Pages.Supply.Elements
         }
 
         private void Quantity_PreviewTextInput(object sender, TextCompositionEventArgs e)
-            => e.Handled = !_intRegex.IsMatch(e.Text);
+        {
+            e.Handled = !_intRegex.IsMatch(e.Text);
+        }
 
-        private void Quantity_TextChanged(object sender, TextChangedEventArgs e) => RecalculateLineTotal();
-        private void Product_SelectionChanged(object sender, SelectionChangedEventArgs e) => RecalculateLineTotal();
+        private void Quantity_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            RecalculateLineTotal();
+        }
+
+        private void Product_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!_isApplyingState && Product.SelectedItem is Product product)
+            {
+                _itemId = 0;
+                _purchasePrice = product.Price;
+            }
+
+            RecalculateLineTotal();
+        }
 
         private void RecalculateLineTotal()
         {
+            if (Product == null || Quantity == null)
+                return;
+
             if (Product.SelectedItem is Product product && int.TryParse(Quantity.Text, out int qty) && qty > 0)
             {
-                decimal total = product.Price * qty;
-                LineTotal.Text = $"{total:N2} ₽";
-                ItemChanged?.Invoke(this, new ItemChangedEventArgs { Product = product, Quantity = qty, LineTotal = total });
+                decimal unitPrice = _purchasePrice > 0 ? _purchasePrice : product.Price;
+                decimal total = unitPrice * qty;
+
+                SetPriceLabels($"{unitPrice:N2} ₽/шт", $"{total:N2} ₽");
+
+                ItemChanged?.Invoke(this, new ItemChangedEventArgs
+                {
+                    Product = product,
+                    Quantity = qty,
+                    LineTotal = total
+                });
             }
             else
             {
-                LineTotal.Text = "0.00 ₽";
-                ItemChanged?.Invoke(this, new ItemChangedEventArgs { Product = Product.SelectedItem as Product, Quantity = 0, LineTotal = 0 });
+                SetPriceLabels("0.00 ₽/шт", "0.00 ₽");
+                ItemChanged?.Invoke(this, new ItemChangedEventArgs
+                {
+                    Product = Product.SelectedItem as Product,
+                    Quantity = 0,
+                    LineTotal = 0
+                });
             }
+        }
+
+        private void SetPriceLabels(string unitPriceText, string lineTotalText)
+        {
+            if (UnitPrice != null)
+                UnitPrice.Text = unitPriceText;
+
+            if (LineTotal != null)
+                LineTotal.Text = lineTotalText;
         }
 
         private void IncrementQuantity(object sender, RoutedEventArgs e)
@@ -72,10 +116,21 @@ namespace Resonate.Pages.Supply.Elements
             var sb = (Storyboard)FindResource("SlideOut");
             if (sb != null)
             {
-                sb.Completed += (s, args) => add?.NewProductParent?.Children.Remove(this);
+                sb.Completed += (s, args) =>
+                {
+                    if (add?.NewProductParent != null)
+                    {
+                        add.NewProductParent.Children.Remove(this);
+                        add.RefreshTotals();
+                    }
+                };
                 sb.Begin(this);
             }
-            else add?.NewProductParent?.Children.Remove(this);
+            else if (add?.NewProductParent != null)
+            {
+                add.NewProductParent.Children.Remove(this);
+                add.RefreshTotals();
+            }
         }
 
         public SupplyItemData GetSupplyItemData()
@@ -84,21 +139,34 @@ namespace Resonate.Pages.Supply.Elements
             {
                 return new SupplyItemData
                 {
+                    ItemId = _itemId,
                     Product = product,
                     ProductId = product.Id,
                     Quantity = qty,
-                    Price = product.Price,
-                    LineTotal = product.Price * qty
+                    PurchasePrice = _purchasePrice > 0 ? _purchasePrice : product.Price
                 };
             }
+
             return null;
         }
 
-        public void SetItem(Product product, int quantity = 1)
+        public void SetItem(int itemId, Product product, int quantity, decimal purchasePrice)
         {
+            if (product == null)
+                return;
+
+            _isApplyingState = true;
+            _itemId = itemId;
+            _purchasePrice = purchasePrice > 0 ? purchasePrice : product.Price;
             Product.SelectedItem = product;
             Quantity.Text = quantity.ToString();
+            _isApplyingState = false;
             RecalculateLineTotal();
+        }
+
+        public void FocusProduct()
+        {
+            Product.Focus();
         }
     }
 
@@ -111,10 +179,11 @@ namespace Resonate.Pages.Supply.Elements
 
     public class SupplyItemData
     {
+        public int ItemId { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
-        public decimal Price { get; set; }
-        public decimal LineTotal => Price * Quantity;
+        public decimal PurchasePrice { get; set; }
+        public decimal LineTotal => PurchasePrice * Quantity;
     }
 }

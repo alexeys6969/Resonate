@@ -1,23 +1,19 @@
-﻿using Resonate.Model;
+using Resonate.Context;
+using Resonate.Model.SupplyClasses;
 using Resonate.Windows;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
+using SupplyModel = Resonate.Model.SupplyClasses.Supply;
 
 namespace Resonate.Pages.Supply.Elements
 {
-    /// <summary>
-    /// Логика взаимодействия для Item.xaml
-    /// </summary>
     public partial class Item : UserControl
     {
-        private Supply supply;
-        private readonly SolidColorBrush _defaultBorder = new SolidColorBrush(Color.FromRgb(58, 58, 58));
-        private readonly SolidColorBrush _focusBorder = new SolidColorBrush(Color.FromRgb(142, 237, 69));
+        private SupplyModel supply;
 
         public Item()
         {
@@ -25,11 +21,7 @@ namespace Resonate.Pages.Supply.Elements
             Loaded += Item_Loaded;
         }
 
-        /// <summary>
-        /// Загружает данные поставки в элемент
-        /// </summary>
-        /// <param name="_supply">Объект поставки для отображения</param>
-        public void LoadData(Supply _supply)
+        public void LoadData(SupplyModel _supply)
         {
             supply = _supply;
             RenderSupply();
@@ -40,22 +32,16 @@ namespace Resonate.Pages.Supply.Elements
             AnimateEntrance();
         }
 
-        /// <summary>
-        /// Анимация появления элемента
-        /// </summary>
         private void AnimateEntrance()
         {
-            this.Opacity = 0;
+            Opacity = 0;
             var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(300))
             {
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
             };
-            this.BeginAnimation(OpacityProperty, fadeIn);
+            BeginAnimation(OpacityProperty, fadeIn);
         }
 
-        /// <summary>
-        /// Анимация нажатия на кнопку
-        /// </summary>
         private void AnimateButtonClick(Button button)
         {
             var scaleDown = new DoubleAnimation(0.9, TimeSpan.FromMilliseconds(100))
@@ -64,31 +50,23 @@ namespace Resonate.Pages.Supply.Elements
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
             };
 
-            button.RenderTransform = new ScaleTransform(1, 1);
-            button.RenderTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleDown);
-            button.RenderTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleDown);
+            button.RenderTransform = new System.Windows.Media.ScaleTransform(1, 1);
+            button.RenderTransform.BeginAnimation(System.Windows.Media.ScaleTransform.ScaleXProperty, scaleDown);
+            button.RenderTransform.BeginAnimation(System.Windows.Media.ScaleTransform.ScaleYProperty, scaleDown);
         }
 
-        /// <summary>
-        /// Отображает данные поставки в интерфейсе
-        /// </summary>
         private void RenderSupply()
         {
-            if (supply == null) return;
+            if (supply == null)
+                return;
 
-            // Код поставки
             SupplyCode.Text = $"📥 {supply.Code ?? $"SUPP-{supply.Id}"}";
-
-            // Дата
-            if (supply.Supply_Date != null && supply.Supply_Date != default(DateTime))
-                SupplyDate.Text = $"📅 {supply.Supply_Date:dd MMMM yyyy HH:mm}";
-            else
-                SupplyDate.Text = "📅 Дата не указана";
-
-            // Сумма с форматированием
+            SupplyDate.Text = supply.Supply_Date != default(DateTime)
+                ? $"📅 {supply.Supply_Date:dd MMMM yyyy HH:mm}"
+                : "📅 Дата не указана";
+            SupplierName.Text = $"Поставщик: {supply.Supplier?.Name ?? $"#{supply.Supplier_id}"}";
             TotalAmount.Text = $"{supply.Total_Amount:N2} ₽";
 
-            // Список товаров
             if (supply.Supply_Items != null && supply.Supply_Items.Count > 0)
             {
                 var displayItems = new List<object>();
@@ -103,6 +81,7 @@ namespace Resonate.Pages.Supply.Elements
                         LineTotal = lineTotal
                     });
                 }
+
                 ProductsList.ItemsSource = displayItems;
             }
             else
@@ -114,20 +93,30 @@ namespace Resonate.Pages.Supply.Elements
             }
         }
 
-        private void Edit(object sender, RoutedEventArgs e)
+        private async void Edit(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn)
-                AnimateButtonClick(btn);
-
-            if (supply?.Id != null && supply.Id > 0)
             {
-                _ = Task.Delay(100).ContinueWith(_ =>
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        MainWindow.init.frame.Navigate(new Pages.Supply.Add(supply));
-                    });
-                });
+                AnimateButtonClick(btn);
+                btn.IsEnabled = false;
+            }
+
+            try
+            {
+                if (supply == null || supply.Id <= 0)
+                    return;
+
+                var fullSupply = await SupplyContext.GetSupplyById(supply.Id) ?? supply;
+                MainWindow.init.frame.Navigate(new Pages.Supply.Add(fullSupply));
+            }
+            catch (Exception ex)
+            {
+                new InfoWindow($"Ошибка при загрузке поставки: {ex.Message}").Show();
+            }
+            finally
+            {
+                if (sender is Button sourceButton)
+                    sourceButton.IsEnabled = true;
             }
         }
 
@@ -136,60 +125,50 @@ namespace Resonate.Pages.Supply.Elements
             if (sender is Button btn)
                 AnimateButtonClick(btn);
 
-            if (supply?.Id == null || supply.Id <= 0) return;
+            if (supply == null || supply.Id <= 0)
+                return;
 
             var dialog = new DialogWindow($"Вы точно хотите удалить поставку #{supply.Code ?? supply.Id.ToString()}?");
             dialog.ShowDialog();
 
             if (dialog.DialogResult == true)
-            {
                 _ = PerformDelete();
-            }
         }
 
-        private async Task PerformDelete()
+        private Task PerformDelete()
         {
             try
             {
-                // Анимация исчезновения
                 var fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(200));
                 fadeOut.Completed += async (s, args) =>
                 {
-                    // 🔹 Здесь будет вызов API для удаления
-                    // bool result = await SupplyContext.DeleteSupply(supply.Id);
-
-                    // Заглушка для демонстрации
-                    bool result = true;
+                    bool result = await SupplyContext.DeleteSupply(supply.Id);
 
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         if (result)
                         {
-                            var info = new InfoWindow($"Поставка #{supply.Code ?? supply.Id} удалена");
-                            info.Show();
-
-                            // Перезагрузка списка
+                            new InfoWindow($"Поставка #{supply.Code ?? supply.Id.ToString()} удалена").Show();
                             MainWindow.init.frame.Navigate(new Pages.Supply.Main());
                         }
                         else
                         {
-                            var info = new InfoWindow($"Не удалось удалить поставку");
-                            info.Show();
+                            new InfoWindow("Не удалось удалить поставку").Show();
 
-                            // Возвращаем видимость при ошибке
                             var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(200));
-                            this.BeginAnimation(OpacityProperty, fadeIn);
+                            BeginAnimation(OpacityProperty, fadeIn);
                         }
                     });
                 };
 
-                this.BeginAnimation(OpacityProperty, fadeOut);
+                BeginAnimation(OpacityProperty, fadeOut);
             }
             catch (Exception ex)
             {
-                var info = new InfoWindow($"Ошибка: {ex.Message}");
-                info.Show();
+                new InfoWindow($"Ошибка: {ex.Message}").Show();
             }
+
+            return Task.CompletedTask;
         }
     }
 }

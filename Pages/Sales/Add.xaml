@@ -77,7 +77,7 @@
 
                 <Button Grid.Column="2" 
                         Click="Exit"
-                        Content="Выйти"
+                        Content="Назад"
                         Style="{StaticResource IconButton}"
                         HorizontalAlignment="Right"
                         Width="120"/>
@@ -98,7 +98,8 @@
                 <StackPanel MaxWidth="700" HorizontalAlignment="Center">
 
                     <!-- Заголовок формы -->
-                    <TextBlock Text="🧾 Новая продажа"
+                    <TextBlock x:Name="FormTitle"
+                               Text="🧾 Новая продажа"
                                FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
                                FontSize="24" FontWeight="SemiBold"
                                Foreground="#ffffff"

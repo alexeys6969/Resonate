@@ -8,6 +8,8 @@ namespace Resonate.Model.SaleClasses
 {
     public class CreateSaleRequest
     {
+        public string Code { get; set; }
+        public DateTime? Sale_Date { get; set; }
         public int employee_id { get; set; }
         public List<SaleItemRequest> items { get; set; }
     }

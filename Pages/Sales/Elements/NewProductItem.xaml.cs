@@ -16,6 +16,9 @@ namespace Resonate.Pages.Sales.Elements
     {
         private Pages.Sales.Add add;
         private readonly Regex _intRegex = new Regex(@"^\d*$", RegexOptions.Compiled);
+        private bool _isApplyingState;
+        private int _itemId;
+        private decimal _priceAtSale;
 
         // Событие для уведомления об изменении строки (для пересчёта итога)
         public event EventHandler<ItemChangedEventArgs> ItemChanged;
@@ -58,6 +61,12 @@ namespace Resonate.Pages.Sales.Elements
         /// </summary>
         private void Product_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!_isApplyingState && Product.SelectedItem is Model.Product product)
+            {
+                _itemId = 0;
+                _priceAtSale = product.Price;
+            }
+
             RecalculateLineTotal();
         }
 
@@ -66,12 +75,16 @@ namespace Resonate.Pages.Sales.Elements
         /// </summary>
         private void RecalculateLineTotal()
         {
+            if (Product == null || Quantity == null)
+                return;
+
             if (Product.SelectedItem is Model.Product product &&
                 int.TryParse(Quantity.Text, out int quantity) &&
                 quantity > 0)
             {
-                decimal lineTotal = product.Price * quantity;
-                LineTotal.Text = $"{lineTotal:N2} ₽";
+                decimal price = _priceAtSale > 0 ? _priceAtSale : product.Price;
+                decimal lineTotal = price * quantity;
+                SetLineTotalText($"{lineTotal:N2} ₽");
 
                 // Уведомляем родительскую страницу об изменении
                 ItemChanged?.Invoke(this, new ItemChangedEventArgs
@@ -83,7 +96,7 @@ namespace Resonate.Pages.Sales.Elements
             }
             else
             {
-                LineTotal.Text = "0.00 ₽";
+                SetLineTotalText("0.00 ₽");
                 ItemChanged?.Invoke(this, new ItemChangedEventArgs
                 {
                     Product = Product.SelectedItem as Model.Product,
@@ -91,6 +104,12 @@ namespace Resonate.Pages.Sales.Elements
                     LineTotal = 0
                 });
             }
+        }
+
+        private void SetLineTotalText(string text)
+        {
+            if (LineTotal != null)
+                LineTotal.Text = text;
         }
 
         /// <summary>
@@ -130,6 +149,7 @@ namespace Resonate.Pages.Sales.Elements
                 storyboard.Completed += (s, args) =>
                 {
                     add?.NewProductParent?.Children.Remove(this);
+                    add?.RefreshTotals();
                 };
                 storyboard.Begin(this);
             }
@@ -137,6 +157,7 @@ namespace Resonate.Pages.Sales.Elements
             {
                 // Если анимация не найдена — удаляем сразу
                 add?.NewProductParent?.Children.Remove(this);
+                add?.RefreshTotals();
             }
         }
 
@@ -151,10 +172,11 @@ namespace Resonate.Pages.Sales.Elements
             {
                 return new SaleItemData
                 {
+                    ItemId = _itemId,
                     Product = product,
                     ProductId = product.Id,
                     Quantity = quantity,
-                    Price = product.Price
+                    Price = _priceAtSale > 0 ? _priceAtSale : product.Price
                 };
             }
             return null;
@@ -163,11 +185,23 @@ namespace Resonate.Pages.Sales.Elements
         /// <summary>
         /// Устанавливает товар и количество программно
         /// </summary>
-        public void SetItem(Model.Product product, int quantity = 1)
+        public void SetItem(int itemId, Model.Product product, int quantity, decimal priceAtSale)
         {
+            if (product == null)
+                return;
+
+            _isApplyingState = true;
+            _itemId = itemId;
+            _priceAtSale = priceAtSale > 0 ? priceAtSale : product.Price;
             Product.SelectedItem = product;
             Quantity.Text = quantity.ToString();
+            _isApplyingState = false;
             RecalculateLineTotal();
+        }
+
+        public void FocusProduct()
+        {
+            Product.Focus();
         }
     }
 
@@ -186,6 +220,7 @@ namespace Resonate.Pages.Sales.Elements
     /// </summary>
     public class SaleItemData
     {
+        public int ItemId { get; set; }
         public int ProductId { get; set; }
         public Model.Product Product { get; set; }
         public int Quantity { get; set; }

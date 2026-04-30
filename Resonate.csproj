@@ -67,6 +67,7 @@
     <Compile Include="Context\EmployeeContext.cs" />
     <Compile Include="Context\ProductContext.cs" />
     <Compile Include="Context\SaleContext.cs" />
+    <Compile Include="Context\SupplyContext.cs" />
     <Compile Include="Context\SupplierContext.cs" />
     <Compile Include="Model\Auth.cs" />
     <Compile Include="Model\Category.cs" />
@@ -75,6 +76,9 @@
     <Compile Include="Model\SaleClasses\Sale.cs" />
     <Compile Include="Model\SaleClasses\SaleItem.cs" />
     <Compile Include="Model\SaleClasses\SaleRequests.cs" />
+    <Compile Include="Model\SupplyClasses\Supply.cs" />
+    <Compile Include="Model\SupplyClasses\SupplyItem.cs" />
+    <Compile Include="Model\SupplyClasses\SupplyRequests.cs" />
     <Compile Include="Model\Supplier.cs" />
     <Compile Include="Windows\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>

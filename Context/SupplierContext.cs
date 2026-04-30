@@ -13,6 +13,13 @@ namespace Resonate.Context
     public class SupplierContext
     {
         static string url = @"https://localhost:7133/";
+
+        private static string BuildUrl(string endpoint)
+        {
+            string token = Uri.EscapeDataString(MainWindow.Token ?? string.Empty);
+            return url + endpoint + "?token=" + token;
+        }
+
         public static async Task<List<Supplier>> GetSuppliers()
         {
             using (HttpClient Client = new HttpClient())
@@ -35,7 +42,7 @@ namespace Resonate.Context
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, url + "POSTSupplier"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, BuildUrl("POSTSupplier")))
                 {
                     Dictionary<string, string> FormData = new Dictionary<string, string>
                     {
@@ -56,7 +63,7 @@ namespace Resonate.Context
                         return new Supplier
                         {
                             Name = responseObj.Name,
-                            Contact = responseObj.Contacts
+                            Contact = responseObj.Contact
                         };
                     }
                     else
@@ -71,7 +78,7 @@ namespace Resonate.Context
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url + "PUTSupplier"))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, BuildUrl("PUTSupplier")))
                 {
                     var content = new MultipartFormDataContent();
 
@@ -95,7 +102,7 @@ namespace Resonate.Context
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, url + "DELETESupplier"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, BuildUrl("DELETESupplier")))
                 {
                     Dictionary<string, string> FormData = new Dictionary<string, string>
                     {

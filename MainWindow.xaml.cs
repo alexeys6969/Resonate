@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace Resonate
 {
@@ -8,19 +9,20 @@ namespace Resonate
     {
         public static MainWindow init;
         public static string Token;
+
         public MainWindow()
         {
             InitializeComponent();
             init = this;
+            StateChanged += MainWindow_StateChanged;
+            Activated += MainWindow_Activated;
             frame.Navigate(new Pages.Authorization());
         }
 
-        // Перетаскивание окна
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
-                // Двойной клик — развернуть/восстановить
                 Maximize_Click(null, null);
             }
             else
@@ -29,29 +31,33 @@ namespace Resonate
             }
         }
 
-        // Свернуть
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState.Minimized;
-            var anim = new System.Windows.Media.Animation.DoubleAnimation(0, TimeSpan.FromMilliseconds(150));
-            anim.Completed += (s, a) => WindowState = WindowState.Minimized;
+            var anim = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(150))
+            {
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+            };
+
+            anim.Completed += (s, a) =>
+            {
+                BeginAnimation(OpacityProperty, null);
+                Opacity = 1;
+                WindowState = WindowState.Minimized;
+            };
+
             BeginAnimation(OpacityProperty, anim);
         }
 
-        // Развернуть / Восстановить
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            if (WindowState == WindowState.Maximized)
-                WindowState = WindowState.Normal;
-            else
-                WindowState = WindowState.Maximized;
+            WindowState = WindowState == WindowState.Maximized
+                ? WindowState.Normal
+                : WindowState.Maximized;
         }
 
-        // Плавное закрытие с анимацией (по желанию)
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            // Можно добавить плавное затухание
-            var fadeOut = new System.Windows.Media.Animation.DoubleAnimation
+            var fadeOut = new DoubleAnimation
             {
                 From = 1,
                 To = 0,
@@ -59,8 +65,19 @@ namespace Resonate
             };
 
             fadeOut.Completed += (s, a) => Close();
-
             BeginAnimation(OpacityProperty, fadeOut);
+        }
+
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState != WindowState.Minimized && Opacity != 1)
+                Opacity = 1;
+        }
+
+        private void MainWindow_Activated(object sender, EventArgs e)
+        {
+            if (Opacity != 1)
+                Opacity = 1;
         }
     }
 }

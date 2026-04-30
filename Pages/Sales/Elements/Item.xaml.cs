@@ -118,16 +118,22 @@ namespace Resonate.Pages.Sales.Elements
             }
         }
 
-        private void Edit(object sender, RoutedEventArgs e)
+        private async void Edit(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn)
                 AnimateButtonClick(btn);
 
             if (sale?.Id != null && sale.Id > 0)
             {
-                // TODO: Переход на страницу редактирования
-                MessageBox.Show("Редактирование продаж пока недоступно", "Информация",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                try
+                {
+                    var fullSale = await Resonate.Context.SaleContext.GetSaleById(sale.Id) ?? sale;
+                    MainWindow.init.frame.Navigate(new Pages.Sales.Add(fullSale));
+                }
+                catch (Exception ex)
+                {
+                    new InfoWindow($"Не удалось открыть продажу: {ex.Message}").Show();
+                }
             }
         }
 

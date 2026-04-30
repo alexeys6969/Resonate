@@ -14,6 +14,16 @@ namespace Resonate.Context
     public class EmployeeContext
     {
         static string url = @"https://localhost:7133/";
+
+        private static string BuildUrl(string endpoint, string query = null)
+        {
+            string token = Uri.EscapeDataString(MainWindow.Token ?? string.Empty);
+            if (string.IsNullOrWhiteSpace(query))
+                return url + endpoint + "?token=" + token;
+
+            return url + endpoint + "?token=" + token + "&" + query;
+        }
+
         public static async Task<string> Login(string login, string password)
         {
             using (HttpClient Client = new HttpClient())
@@ -61,7 +71,7 @@ namespace Resonate.Context
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Get, url + $"GETEmployeeById?id={id}"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Get, BuildUrl("GETEmployeeById", "id=" + id)))
                 {
                     var Response = await Client.SendAsync(Request);
 
@@ -111,7 +121,7 @@ namespace Resonate.Context
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, url + "POSTEmployee"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, BuildUrl("POSTEmployee")))
                 {
                     Dictionary<string, string> FormData = new Dictionary<string, string>
                     {
@@ -151,7 +161,7 @@ namespace Resonate.Context
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url + "PUTEmployee"))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, BuildUrl("PUTEmployee")))
                 {
                     var content = new MultipartFormDataContent();
 
@@ -177,7 +187,7 @@ namespace Resonate.Context
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, url + "DELETEEmployees"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, BuildUrl("DELETEEmployees")))
                 {
                     Dictionary<string, string> FormData = new Dictionary<string, string>
                     {

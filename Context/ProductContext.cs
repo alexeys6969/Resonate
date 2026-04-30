@@ -13,6 +13,13 @@ namespace Resonate.Context
     public class ProductContext
     {
         static string url = @"https://localhost:7133/";
+
+        private static string BuildUrl(string endpoint)
+        {
+            string token = Uri.EscapeDataString(MainWindow.Token ?? string.Empty);
+            return url + endpoint + "?token=" + token;
+        }
+
         public static async Task<List<Product>> GetProducts()
         {
             using (HttpClient Client = new HttpClient())
@@ -53,7 +60,7 @@ namespace Resonate.Context
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url + "POSTProduct"))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, BuildUrl("POSTProduct")))
                 {
                     var formData = new Dictionary<string, string>
                     {
@@ -95,7 +102,7 @@ namespace Resonate.Context
         {
             using (HttpClient client = new HttpClient())
             {
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, url + "PUTProduct"))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, BuildUrl("PUTProduct")))
                 {
                     var content = new MultipartFormDataContent();
 
@@ -105,7 +112,7 @@ namespace Resonate.Context
                     content.Add(new StringContent(product.Article ?? ""), "Article");
                     content.Add(new StringContent(product.Category_Id.ToString()), "Category_Id");
                     content.Add(new StringContent(product.Price.ToString()), "Price");
-                    content.Add(new StringContent(product.Stock_Quantity.ToString()), "Stock");
+                    content.Add(new StringContent(product.Stock_Quantity.ToString()), "Stock_Quantity");
 
 
                     request.Content = content;
@@ -124,7 +131,7 @@ namespace Resonate.Context
         {
             using (HttpClient Client = new HttpClient())
             {
-                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, url + "DELETEProducts"))
+                using (HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Delete, BuildUrl("DELETEProducts")))
                 {
                     Dictionary<string, string> FormData = new Dictionary<string, string>
                     {

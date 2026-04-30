@@ -41,5 +41,10 @@ namespace Resonate.Model
 
             return Full_Name;
         }
+
+        public override string ToString()
+        {
+            return string.IsNullOrWhiteSpace(Full_Name) ? $"Сотрудник #{Id}" : Full_Name;
+        }
     }
 }

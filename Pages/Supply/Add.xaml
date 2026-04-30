@@ -1,4 +1,4 @@
-﻿<Page x:Class="Resonate.Pages.Supply.Add"
+<Page x:Class="Resonate.Pages.Supply.Add"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,7 +15,6 @@
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Фон -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#1a1a1a" Offset="0"/>
@@ -26,7 +25,6 @@
         <Ellipse Width="600" Height="600" Fill="#8EED45" Opacity="0.03" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-200,-200,0,0"/>
         <Ellipse Width="500" Height="500" Fill="#24E3ED" Opacity="0.04" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-150,-150"/>
 
-        <!-- Верхняя панель -->
         <Border Grid.Column="1" VerticalAlignment="Top" Background="#252525" BorderBrush="#3a3a3a" BorderThickness="0,0,0,1" Effect="{StaticResource CardShadow}">
             <Grid Margin="30,20,30,20">
                 <Grid.ColumnDefinitions>
@@ -43,45 +41,49 @@
                         </LinearGradientBrush>
                     </TextBlock.Foreground>
                 </TextBlock>
-                <Button Grid.Column="2" Click="Exit" Content="Выйти" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Width="120"/>
+                <Button Grid.Column="2" Click="Exit" Content="Назад" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Width="120"/>
             </Grid>
         </Border>
 
-        <!-- Форма -->
         <Border Grid.Column="1" VerticalAlignment="Top" Background="#252525" BorderBrush="#3a3a3a" BorderThickness="1" Padding="40,35" Margin="0,100,0,100" Effect="{StaticResource CardShadow}">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel MaxWidth="700" HorizontalAlignment="Center">
 
                     <TextBlock x:Name="FormTitle" Text="📥 Новая поставка" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="24" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,0,30" HorizontalAlignment="Center"/>
 
-                    <!-- Код -->
                     <StackPanel Margin="0,0,0,18">
                         <TextBlock Text="Код поставки *" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="14" FontWeight="Medium" Foreground="#cccccc" Margin="0,0,0,10"/>
                         <Border x:Name="CodeBorder" CornerRadius="20" Background="#2e2e2e" BorderBrush="#444444" BorderThickness="1.5" Padding="16,12">
-                            <TextBox x:Name="Code" Style="{StaticResource TransparentTextBox}" Tag="Например: SUPP-2026-001" GotFocus="Input_GotFocus" LostFocus="Input_LostFocus"/>
+                            <TextBox x:Name="Code" Style="{StaticResource TransparentTextBox}" Tag="Например: SUPP-2026-001" GotFocus="Input_GotFocus" LostFocus="Input_LostFocus" TextChanged="Code_TextChanged"/>
                         </Border>
                         <TextBlock x:Name="CodeError" Text="" FontSize="12" Foreground="#ff5252" Margin="0,6,0,0" Visibility="Collapsed"/>
                     </StackPanel>
 
-                    <!-- Дата -->
+                    <StackPanel Margin="0,0,0,18">
+                        <TextBlock Text="Поставщик *" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="14" FontWeight="Medium" Foreground="#cccccc" Margin="0,0,0,10"/>
+                        <Border x:Name="SupplierBorder" CornerRadius="20" Background="#2e2e2e" BorderBrush="#444444" BorderThickness="1.5" Padding="16,8">
+                            <ComboBox x:Name="Supplier" Style="{StaticResource DarkComboBox}" Tag="Выберите поставщика" GotFocus="Input_GotFocus" LostFocus="Input_LostFocus" SelectionChanged="Supplier_SelectionChanged"/>
+                        </Border>
+                        <TextBlock x:Name="SupplierError" Text="" FontSize="12" Foreground="#ff5252" Margin="0,6,0,0" Visibility="Collapsed"/>
+                    </StackPanel>
+
                     <StackPanel Margin="0,0,0,25">
                         <TextBlock Text="Дата и время *" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="14" FontWeight="Medium" Foreground="#cccccc" Margin="0,0,0,10"/>
                         <Border x:Name="DateBorder" CornerRadius="20" Background="#2e2e2e" BorderBrush="#444444" BorderThickness="1.5" Padding="16,12">
-                            <TextBox x:Name="DateTimeSale" Style="{StaticResource TransparentTextBox}" Tag="дд.мм.гггг чч:мм" GotFocus="Input_GotFocus" LostFocus="Input_LostFocus"/>
+                            <TextBox x:Name="DateTimeSale" Style="{StaticResource TransparentTextBox}" Tag="дд.мм.гггг чч:мм" GotFocus="Input_GotFocus" LostFocus="Input_LostFocus" TextChanged="DateTimeSale_TextChanged"/>
                         </Border>
+                        <TextBlock x:Name="DateError" Text="" FontSize="12" Foreground="#ff5252" Margin="0,6,0,0" Visibility="Collapsed"/>
                         <TextBlock Text="Формат: 16.02.2026 14:30" FontSize="11" Foreground="#666666" Margin="0,4,0,0"/>
                     </StackPanel>
 
                     <Rectangle Height="1" Fill="#3a3a3a" Margin="0,10,0,20"/>
 
-                    <!-- Товары -->
                     <TextBlock Text="📦 Товары в поставке" FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf" FontSize="18" FontWeight="SemiBold" Foreground="#ffffff" Margin="0,0,0,15"/>
                     <Border Background="#222222" CornerRadius="20" BorderBrush="#3a3a3a" BorderThickness="1" Padding="15" Margin="0,0,0,15" MinHeight="100">
                         <StackPanel x:Name="NewProductParent"/>
                     </Border>
                     <Button Click="AddProduct" Content="＋ Добавить товар" Style="{StaticResource SecondaryButton}" HorizontalAlignment="Left" Width="200" Margin="0,0,0,25"/>
 
-                    <!-- Итого -->
                     <Border Background="#2e2e2e" BorderBrush="#8EED45" BorderThickness="1" Padding="20,15" Margin="0,0,0,30" CornerRadius="10">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -93,7 +95,6 @@
                         </Grid>
                     </Border>
 
-                    <!-- Кнопки -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button x:Name="AddEdit" Click="EditInfo" Style="{StaticResource PrimaryButton}" Content="📥 Оформить поставку" Width="240" Margin="0,0,15,0"/>
                         <Button Content="Отмена" Click="Exit" Style="{StaticResource SecondaryButton}" Width="140"/>
