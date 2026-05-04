@@ -73,7 +73,7 @@
         </StackPanel>
 
         <!-- Список -->
-        <ScrollViewer Grid.Column="1" Margin="0,160,0,90" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Column="1" Margin="0,160,0,90" VerticalScrollBarVisibility="Hidden">
             <StackPanel x:Name="SupplyParent" Margin="30,0"/>
         </ScrollViewer>
 

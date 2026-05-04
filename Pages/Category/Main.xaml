@@ -132,7 +132,7 @@
 
         <!-- Список категорий -->
         <ScrollViewer Grid.Column="1" Margin="0,160,0,90" 
-                      VerticalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Hidden"
                       HorizontalScrollBarVisibility="Disabled">
             <StackPanel x:Name="CategoryParent" Margin="30,0"/>
         </ScrollViewer>
