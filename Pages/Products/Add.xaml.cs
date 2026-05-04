@@ -22,7 +22,7 @@ namespace Resonate.Pages.Products
         private readonly SolidColorBrush _errorBrush = new SolidColorBrush(Color.FromRgb(255, 82, 82));
 
         // Регулярки для валидации числовых полей
-        private readonly Regex _priceRegex = new Regex(@"^\d*\.?\d{0,2}$", RegexOptions.Compiled);
+        private readonly Regex _priceRegex = new Regex(@"^\d*(?:[.,]\d{0,2})?$");
         private readonly Regex _intRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
 
         public Add(Model.Product _product = null)
@@ -154,7 +154,7 @@ namespace Resonate.Pages.Products
             }
 
             // Валидация цены
-            if (!decimal.TryParse(Price.Text, out decimal price) || price <= 0)
+            if (!decimal.TryParse(Price.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out decimal price) || price <= 0)
             {
                 ShowFieldError(PriceBorder, PriceError, "Введите корректную цену (> 0)");
                 isValid = false;
@@ -359,7 +359,7 @@ namespace Resonate.Pages.Products
                     else
                         Category.SelectedItem = null;
 
-                    Price.Text = fullProduct.Price.ToString("0.00", CultureInfo.InvariantCulture);
+                    Price.Text = fullProduct.Price.ToString("0.00", CultureInfo.CurrentCulture);
                     Stock.Text = fullProduct.Stock_Quantity.ToString();
 
                     AddEdit.Content = "💾 Сохранить изменения";
