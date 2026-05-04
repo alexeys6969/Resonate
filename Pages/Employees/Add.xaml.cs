@@ -185,9 +185,9 @@ namespace Resonate.Pages.Employees
 
                     Model.Employees createdEmployee = await EmployeeContext.CreateEmployee(newEmployee);
 
-                    if (createdEmployee != null)
+                    if (newEmployee != null)
                     {
-                        ShowSuccess($"Сотрудник \"{createdEmployee.Full_Name}\" создан");
+                        ShowSuccess($"Сотрудник {newEmployee.Full_Name} создан");
                         NavigateBack();
                     }
                     else
