@@ -152,6 +152,7 @@
         <!-- Кнопка добавления -->
         <Button Grid.Column="1" 
                 Click="Add" 
+                x:Name="AddButton"
                 Content="＋ Добавить товар"
                 Style="{StaticResource PrimaryButton}"
                 VerticalAlignment="Bottom" 

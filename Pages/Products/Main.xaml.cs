@@ -1,4 +1,5 @@
 ﻿using Resonate.Context;
+using Resonate.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,13 +111,20 @@ namespace Resonate.Pages.Products
         /// <summary>
         /// Отображает товары в списке
         /// </summary>
-        private void DisplayProducts(List<Model.Product> products)
+        private async void DisplayProducts(List<Model.Product> products)
         {
             ProductParent.Children.Clear();
+            var employee = await EmployeeContext.GetCurrentEmployee(MainWindow.Token);
 
             foreach (var item in products)
             {
                 var productElement = new Elements.Item(item);
+                if (employee.Position == "Кассир" || employee.Position == "Менеджер")
+                {
+                    productElement.DeleteButton.Visibility = Visibility.Collapsed;
+                    productElement.EditButton.Visibility = Visibility.Collapsed;
+                    AddButton.Visibility = Visibility.Collapsed;
+                }
 
                 if (productElement is FrameworkElement fe)
                 {

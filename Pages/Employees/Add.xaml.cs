@@ -306,12 +306,7 @@ namespace Resonate.Pages.Employees
             try
             {
                 var employees = await EmployeeContext.GetEmployees(MainWindow.Token);
-                var positions = employees
-                    .Where(e => !string.IsNullOrWhiteSpace(e.Position))
-                    .Select(e => e.Position)
-                    .Distinct()
-                    .OrderBy(p => p)
-                    .ToList();
+                string[] positions = {"Администратор", "Менеджер", "Кассир" };
 
                 Position.ItemsSource = positions;
 
