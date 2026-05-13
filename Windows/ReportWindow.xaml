@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Формирование отчёта" Height="320" Width="480" 
+        Title="Формирование отчёта" SizeToContent="Height" Height="auto" Width="480" 
         Background="#1a1a1a" ResizeMode="NoResize" 
         WindowStyle="None" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True">
@@ -24,7 +24,7 @@
 
             <!-- Заголовок -->
             <StackPanel HorizontalAlignment="Center" Margin="0,0,0,20">
-                <TextBlock Text="📊" FontSize="32" HorizontalAlignment="Center"/>
+                <TextBlock Text="📊" FontSize="32" Foreground="White" HorizontalAlignment="Center"/>
                 <TextBlock Text="Resonate" 
                            FontFamily="\Fonts\Inter-VariableFont_opsz,wght.ttf"
                            FontSize="24" FontWeight="Bold"
@@ -52,17 +52,14 @@
                         BorderBrush="#444444"
                         BorderThickness="1"
                         CornerRadius="10"
-                        Padding="12,8">
+                        Padding="12,8"
+                        Margin="0,0,0,30">
                     <ComboBox x:Name="ReportTableComboBox"
                               Style="{StaticResource DarkComboBox}"
                               Tag="Выберите таблицу..."
                               FontSize="15">
-                        <ComboBoxItem Content="📦 Товары" Tag="Products"/>
-                        <ComboBoxItem Content="👥 Сотрудники" Tag="Employees"/>
                         <ComboBoxItem Content="🧾 Продажи" Tag="Sales"/>
                         <ComboBoxItem Content="📥 Поставки" Tag="Supply"/>
-                        <ComboBoxItem Content="🏢 Поставщики" Tag="Suppliers"/>
-                        <ComboBoxItem Content="📁 Категории" Tag="Categories"/>
                     </ComboBox>
                 </Border>
             </StackPanel>
