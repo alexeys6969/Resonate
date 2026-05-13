@@ -94,7 +94,6 @@ namespace Resonate.Pages.Sales
                 var employees = await EmployeeContext.GetEmployees(MainWindow.Token) ?? new List<EmployeeModel>();
                 _availableCashiers.AddRange(employees
                     .Where(x => x != null && !string.IsNullOrWhiteSpace(x.Full_Name))
-                    .Where(x => x.Position == "Кассир" || x.Position == "Администратор")
                     .OrderBy(x => x.Full_Name));
 
                 if (sale != null && sale.Employee_id > 0 && _availableCashiers.All(x => x.Id != sale.Employee_id))

@@ -306,7 +306,7 @@ namespace Resonate.Pages.Employees
             try
             {
                 var employees = await EmployeeContext.GetEmployees(MainWindow.Token);
-                string[] positions = {"Администратор", "Менеджер", "Кассир" };
+                string[] positions = { "Администратор", "Менеджер", "Кассир" };
 
                 Position.ItemsSource = positions;
 
